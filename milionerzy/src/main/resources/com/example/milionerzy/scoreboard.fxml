@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.Scoreboard">
+   <children>
+      <Text fx:id="position1" layoutX="275.0" layoutY="33.0" text="position1" />
+      <Text fx:id="position2" layoutX="275.0" layoutY="73.0" text="position2" />
+      <Text fx:id="position3" layoutX="275.0" layoutY="107.0" text="position3" />
+      <Text fx:id="position4" layoutX="275.0" layoutY="141.0" text="position4" />
+      <Text fx:id="position5" layoutX="275.0" layoutY="167.0" text="position5" />
+      <Text fx:id="position6" layoutX="275.0" layoutY="200.0" text="position6" />
+      <Text fx:id="position7" layoutX="275.0" layoutY="227.0" text="position7" />
+      <Text fx:id="position8" layoutX="275.0" layoutY="254.0" text="position8" />
+      <Text fx:id="position9" layoutX="275.0" layoutY="286.0" text="position9" />
+      <Text fx:id="position10" layoutX="272.0" layoutY="316.0" text="position10" />
+      <Button fx:id="back_button" layoutX="50.0" layoutY="340.0" mnemonicParsing="false" text="BACK" />
+   </children>
+</AnchorPane>

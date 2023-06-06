@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.milionerzy.EndingScreen"
+            prefHeight="400.0" prefWidth="600.0">
+    <Text fx:id="position1" layoutX="250.0" layoutY="50.0" text="Congratulations" />
+    <Text fx:id="final_score" layoutX="250.0" layoutY="100.0" text="score" />
+    <Text fx:id="question" layoutX="250.0" layoutY="140.0" text="question" />
+    <Text fx:id="correct_answer" layoutX="250.0" layoutY="180.0" text="correct answer" />
+    <Button fx:id="back_button" layoutX="50.0" layoutY="340.0" mnemonicParsing="false" text="BACK" />
+</AnchorPane>
