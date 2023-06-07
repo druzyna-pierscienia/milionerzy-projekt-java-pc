@@ -12,7 +12,6 @@ public class ApiRequestInto {
         void onResponse(String result);
         void onError(Exception e);
     }
-
     public static void executeRequest(String url, String urlParameters, ApiCallback callback) {
         new Thread(() -> {
             try {

@@ -32,20 +32,21 @@ public class EndingScreen {
     public void setScore(int score) {
         final_score.setText("Score: " + score);
         String login = User.getUserLogin();
-        String url = "http://localhost:8080/saveScore?="+login+"&score="+score;
-        ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
+        String url = "http://localhost:8080/saveScore?login="+login+"&score="+score;
+
+        String urlParameters = "";
+
+        ApiRequestInto.executeRequest(url, urlParameters, new ApiRequestInto.ApiCallback() {
             @Override
             public void onResponse(String result) {
-
-                System.out.println(url);
-
+                // Obsługa odpowiedzi z serwera
+                System.out.println("Odpowiedź serwera: " + result + " Dla url: " + url);
             }
 
             @Override
             public void onError(Exception e) {
-
-                System.out.println(e);
-
+                // Obsługa błędu
+                e.printStackTrace();
             }
         });
     }
