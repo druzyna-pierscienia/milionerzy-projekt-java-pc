@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0d875b3-91d4-4ba8-94c7-fd690fd2c094" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/api/MyApiApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/api/MyApiApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/resources/com/example/milionerzy/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/resources/com/example/milionerzy/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
