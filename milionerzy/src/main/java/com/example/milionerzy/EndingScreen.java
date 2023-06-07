@@ -24,16 +24,32 @@ public class EndingScreen {
 
     @FXML
     private Text correct_answer;
+    private int questionLvl = 0;
 
+    public void setLvl(int Lvl) { questionLvl = Lvl; }
     public void setScore(int score) {
         final_score.setText("Score: " + score);
     }
 
-    public void setQuestion(String questionText) { question.setText("Question: " + questionText); }
+    public void setQuestion(String questionText) {
+        if(questionLvl != 10){
+            question.setText("Question: " + questionText);
+        }
+        else{
+            question.setText("Winner!");
+        }
+    }
 
     public void setCorrect(String correct) {
-        correct_answer.setText("Correct: " + correct);
+        if(questionLvl != 10){
+            correct_answer.setText("Correct: " + correct);
+        }
+        else {
+            correct_answer.setText(" ");
+        }
+
     }
+
     public void initialize() {
         back_button.setOnAction(this::goBackToMainMenu);
     }

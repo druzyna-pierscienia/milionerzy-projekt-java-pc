@@ -1,6 +1,8 @@
 package com.example.milionerzy;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,16 +14,23 @@ import java.io.IOException;
 
 public class Question {
     public Button backToMenuButton;
+    @FXML
     public Button odpA;
+    @FXML
     public Button odpB;
+    @FXML
     public Button odpC;
+    @FXML
     public Button odpD;
     public Button hint5050;
     public Button hintAudience;
     public Button hintPhone;
     public Text question_text;
-    private String correct = "A", question = "Pytanie za milion",questionFromDataBase,answerAFromDataBase,answerBFromDataBase,answerCFromDataBase,answerDFromDataBase,correctAns;
+    private String correct = "a", question = "Pytanie za milion",questionFromDataBase,answerAFromDataBase,answerBFromDataBase,answerCFromDataBase,answerDFromDataBase,correctAns;
     private int score = 0, scoreG = 0, questionLvl = 0;
+    public void setLvl(int Lvl) {
+        questionLvl = Lvl;
+    }
 
     public void setScore(int scoreP) {
         score = scoreP;
@@ -30,12 +39,34 @@ public class Question {
     public void setScoreG(int scoreGP) {
         scoreG = scoreGP;
     }
-
-    public void setLvl(int Lvl) {
-        questionLvl = Lvl;
-    }
-
     public void initialize() {
+        questionLvl += 1;
+    String url = "http://localhost:8080/question?roundNumber=" + questionLvl;
+    ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
+        @Override
+        public void onResponse(String result) {
+            // Obsługa odpowiedzi API
+            if (result.equals("blad")) {
+                question_text.setText(result);
+                Platform.runLater(() -> odpA.setText("Kliknij aby przejść dalej"));
+            } else {
+                String[] quest = result.split("/");
+
+                question_text.setText(quest[0] + " " + questionLvl);
+                Platform.runLater(() -> odpA.setText(quest[1]));
+                Platform.runLater(() -> odpB.setText(quest[2]));
+                Platform.runLater(() -> odpC.setText(quest[3]));
+                Platform.runLater(() -> odpD.setText(quest[4]));
+                correct = quest[5];
+            }
+        }
+
+        @Override
+        public void onError(Exception e) {
+            // Obsługa błędu
+            question_text.setText("Wystąpił błąd: " + e.getMessage());
+        }
+    });
 
 
         backToMenuButton.setOnAction(this::goBackToMainMenu);
@@ -46,6 +77,7 @@ public class Question {
         hint5050.setOnAction(this::useHint5050);
         hintAudience.setOnAction(this::useHintAudience);
         hintPhone.setOnAction(this::useHintPhone);
+
     }
 
 
@@ -55,19 +87,47 @@ public class Question {
         if (questionLvl % 3 == 0) {
             scoreG = score;
         }
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("question.fxml"));
-            Parent questionRoot = loader.load();
-            Question questionController = loader.getController();
-            questionController.setScoreG(scoreG);
-            questionController.setScore(score);
-            questionController.setLvl(questionLvl);
-            Scene questionScene = new Scene(questionRoot);
-            Stage stage = (Stage) backToMenuButton.getScene().getWindow();
-            stage.setScene(questionScene);
-        } catch (IOException e) {
-            e.printStackTrace();
+        else if(questionLvl == 10){
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ending_screen.fxml"));
+                Parent endingRoot = loader.load();
+                EndingScreen endingController = loader.getController();
+                endingController.setLvl(questionLvl);
+                endingController.setScore(scoreG);
+                endingController.setQuestion(questionFromDataBase);
+                endingController.setCorrect(correct);
+                Scene endingScene = new Scene(endingRoot);
+                Stage stage = (Stage) backToMenuButton.getScene().getWindow();
+                stage.setScene(endingScene);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        String url = "http://localhost:8080/question?roundNumber=" + questionLvl;
+        ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
+            @Override
+            public void onResponse(String result) {
+                // Obsługa odpowiedzi API
+                if (result.equals("blad")) {
+                    question_text.setText(result);
+                } else {
+                    String[] quest = result.split("/");
+
+                    question_text.setText(quest[0] + " " + questionLvl);
+                    Platform.runLater(() -> odpA.setText(quest[1]));
+                    Platform.runLater(() -> odpB.setText(quest[2]));
+                    Platform.runLater(() -> odpC.setText(quest[3]));
+                    Platform.runLater(() -> odpD.setText(quest[4]));
+                    correct = quest[5];
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                // Obsługa błędu
+                question_text.setText("Wystąpił błąd: " + e.getMessage());
+            }
+        });
     }
 
     private void wrongAnswer() {
@@ -76,7 +136,7 @@ public class Question {
             Parent endingRoot = loader.load();
             EndingScreen endingController = loader.getController();
             endingController.setScore(scoreG);
-            endingController.setQuestion(question);
+            endingController.setQuestion(questionFromDataBase);
             endingController.setCorrect(correct);
             Scene endingScene = new Scene(endingRoot);
             Stage stage = (Stage) backToMenuButton.getScene().getWindow();
@@ -99,7 +159,7 @@ public class Question {
     }
 
     private void answerA(ActionEvent event) {
-        if (correct.equals("A")) {
+        if (correct.equals("a")) {
             correctAnswer();
         } else {
             wrongAnswer();
@@ -107,7 +167,7 @@ public class Question {
     }
 
     private void answerB(ActionEvent event) {
-        if (correct.equals("B")) {
+        if (correct.equals("b")) {
             correctAnswer();
         } else {
             wrongAnswer();
@@ -115,7 +175,7 @@ public class Question {
     }
 
     private void answerC(ActionEvent event) {
-        if (correct.equals("C")) {
+        if (correct.equals("c")) {
             correctAnswer();
         } else {
             wrongAnswer();
@@ -123,7 +183,7 @@ public class Question {
     }
 
     private void answerD(ActionEvent event) {
-        if (correct.equals("D")) {
+        if (correct.equals("d")) {
             correctAnswer();
         } else {
             wrongAnswer();
