@@ -1,6 +1,7 @@
 package com.example.milionerzy;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -56,5 +57,29 @@ public class MainMenu {
             e.printStackTrace();
         }
     }
-    //TODO: PRZYCISK LOGOUT
+    @FXML
+    private void logOut(){
+        try {
+            User user = new User();
+            user.logUserOut();
+
+            // Ładowanie pliku FXML dla nowej sceny
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+
+            // Tworzenie sceny na podstawie załadowanego pliku FXML
+            Scene scene = new Scene(root);
+
+            // Pobieranie obiektu Stage z bieżącego widoku
+            Stage stage = (Stage) aboutApp_button.getScene().getWindow();
+
+            // Ustawianie nowej sceny na Stage
+            stage.setScene(scene);
+
+            // Wyświetlanie nowej sceny
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -8,6 +8,6 @@
       <Button fx:id="newGame_button" layoutX="261.0" layoutY="124.0" mnemonicParsing="false" text="NEW GAME" />
       <Button fx:id="scoreBoard_button" layoutX="252.0" layoutY="187.0" mnemonicParsing="false" text="SCORE BOARD" />
       <Button fx:id="aboutApp_button" layoutX="248.0" layoutY="243.0" mnemonicParsing="false" text="ABOUT THE APP" />
-      <Button fx:id="logout_button" layoutX="268.0" layoutY="294.0" mnemonicParsing="false" text="LOGOUT" />
+      <Button fx:id="logout_button" layoutX="268.0" layoutY="294.0" mnemonicParsing="false" onAction="#logOut" text="LOGOUT" />
    </children>
 </AnchorPane>
