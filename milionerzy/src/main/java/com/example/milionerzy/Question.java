@@ -189,7 +189,6 @@ public class Question {
             wrongAnswer();
         }
     }
-
     private void useHint5050(ActionEvent event) {
         // TODO: Implementacja metody hint5050
     }

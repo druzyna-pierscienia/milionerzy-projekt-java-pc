@@ -1,16 +1,15 @@
-
 package com.example.milionerzy;
 
-        import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
-        import javafx.scene.Parent;
-        import javafx.scene.Scene;
-        import javafx.scene.control.Button;
-        import javafx.scene.text.Text;
-        import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-        import java.io.IOException;
+import java.io.IOException;
 
 public class EndingScreen {
 
@@ -26,28 +25,45 @@ public class EndingScreen {
     private Text correct_answer;
     private int questionLvl = 0;
 
-    public void setLvl(int Lvl) { questionLvl = Lvl; }
+    public void setLvl(int Lvl) {
+        questionLvl = Lvl;
+    }
+
     public void setScore(int score) {
         final_score.setText("Score: " + score);
+        String login = User.getUserLogin();
+        String url = "http://localhost:8080/saveScore?="+login+"&score="+score;
+        ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
+            @Override
+            public void onResponse(String result) {
+
+                System.out.println(url);
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+                System.out.println(e);
+
+            }
+        });
     }
 
     public void setQuestion(String questionText) {
-        if(questionLvl != 10){
+        if (questionLvl != 10) {
             question.setText("Question: " + questionText);
-        }
-        else{
+        } else {
             question.setText("Winner!");
         }
     }
 
     public void setCorrect(String correct) {
-        if(questionLvl != 10){
+        if (questionLvl != 10) {
             correct_answer.setText("Correct: " + correct);
-        }
-        else {
+        } else {
             correct_answer.setText(" ");
         }
-
     }
 
     public void initialize() {
@@ -55,6 +71,8 @@ public class EndingScreen {
     }
 
     private void goBackToMainMenu(ActionEvent event) {
+
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
             Parent mainMenuRoot = loader.load();
