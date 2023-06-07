@@ -6,7 +6,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.Login">
     <children>
         <TextField fx:id="username_text" layoutX="215.0" layoutY="91.0" />
-        <TextField fx:id="password_text" layoutX="216.0" layoutY="150.0" />
+        <PasswordField fx:id="password_text" layoutX="216.0" layoutY="150.0" />
         <Button fx:id="login_button" layoutX="265.0" layoutY="215.0" mnemonicParsing="false" onAction="#logIn" text="Login" />
         <Button fx:id="register_button" layoutX="258.0" layoutY="278.0" mnemonicParsing="false" onAction="#registration" text="Register" />
         <Label layoutX="215.0" layoutY="73.0" text="username" />
