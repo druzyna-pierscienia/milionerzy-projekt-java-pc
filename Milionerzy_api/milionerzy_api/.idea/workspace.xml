@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a0d875b3-91d4-4ba8-94c7-fd690fd2c094" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Registration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/resources/com/example/milionerzy/registration.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/resources/com/example/milionerzy/registration.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +38,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/wikto/OneDrive/Dokumenty/GitHub/milionerzy-projekt-java-pc/milionerzy",
+    "last_opened_file_path": "C:/Users/Admin/Desktop/projekt_java/milionerzy-projekt-java-pc/milionerzy",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
   }
 }]]></component>
