@@ -7,12 +7,13 @@
     <children>
         <TextField fx:id="registration_username_text" layoutX="212.0" layoutY="55.0" />
         <TextField fx:id="registration_email_text" layoutX="212.0" layoutY="118.0" />
-        <TextField fx:id="registration_password_text" layoutX="212.0" layoutY="175.0" />
-        <TextField fx:id="registration_repeatPassword_text" layoutX="212.0" layoutY="236.0" />
+        <PasswordField fx:id="registration_password_text" layoutX="212.0" layoutY="175.0" />
+        <PasswordField fx:id="registration_repeatPassword_text" layoutX="212.0" layoutY="236.0" />
         <Label layoutX="212.0" layoutY="38.0" text="username" />
         <Label layoutX="212.0" layoutY="101.0" text="e-mail" />
         <Label layoutX="212.0" layoutY="158.0" text="password" />
         <Label layoutX="212.0" layoutY="219.0" text="password" />
-        <Button fx:id="createAccount_button" alignment="CENTER" layoutX="229.0" layoutY="297.0" mnemonicParsing="false" text="CREATE ACCOUNT" />
+        <Button fx:id="createAccount_button" alignment="CENTER" layoutX="229.0" layoutY="297.0" mnemonicParsing="false" onAction="#register" text="CREATE ACCOUNT" />
+      <Button fx:id="goBack" alignment="CENTER" layoutX="264.0" layoutY="336.0" mnemonicParsing="false" onAction="#goBack" text="BACK" />
     </children>
 </AnchorPane>
