@@ -26,8 +26,16 @@ public class Question {
     public Button hintAudience;
     public Button hintPhone;
     public Text question_text;
-    private String correct = "a", question = "Pytanie za milion",questionFromDataBase,answerAFromDataBase,answerBFromDataBase,answerCFromDataBase,answerDFromDataBase,correctAns;
+    private static String correct = "a";
+    private String question = "Pytanie za milion";
+    private String questionFromDataBase;
+    private String answerAFromDataBase;
+    private String answerBFromDataBase;
+    private String answerCFromDataBase;
+    private String answerDFromDataBase;
+    private String correctAns;
     private int score = 0, scoreG = 0, questionLvl = 0;
+    private static String AnsA = "", AnsB = "",AnsC = "", AnsD = "",Quest = "";
     public void setLvl(int Lvl) {
         questionLvl = Lvl;
     }
@@ -58,6 +66,11 @@ public class Question {
                 Platform.runLater(() -> odpC.setText(quest[3]));
                 Platform.runLater(() -> odpD.setText(quest[4]));
                 correct = quest[5];
+                Quest=String.valueOf(quest[0]);
+                AnsA=String.valueOf(quest[1]);
+                AnsB=String.valueOf(quest[2]);
+                AnsC=String.valueOf(quest[3]);
+                AnsD=String.valueOf(quest[4]);
             }
         }
 
@@ -81,6 +94,21 @@ public class Question {
     }
 
 
+    public static String getCorrectAns(){
+        if (correct.equals("a")){
+            return AnsA;
+        } else if (correct.equals("b")) {
+            return AnsB;
+        } else if (correct.equals("c")) {
+            return AnsC;
+        }
+        else {
+            return AnsD;
+        }
+    }
+    public static String getQuestion(){
+        return Quest;
+    }
     private void correctAnswer() {
         questionLvl += 1;
         score = score + questionLvl * 10;
@@ -94,7 +122,7 @@ public class Question {
                 EndingScreen endingController = loader.getController();
                 endingController.setLvl(questionLvl);
                 endingController.setScore(scoreG);
-                endingController.setQuestion(questionFromDataBase);
+                endingController.setQuestion(Quest);
                 endingController.setCorrect(correct);
                 Scene endingScene = new Scene(endingRoot);
                 Stage stage = (Stage) backToMenuButton.getScene().getWindow();
@@ -119,6 +147,11 @@ public class Question {
                     Platform.runLater(() -> odpC.setText(quest[3]));
                     Platform.runLater(() -> odpD.setText(quest[4]));
                     correct = quest[5];
+                    Quest=String.valueOf(quest[0]);
+                    AnsA=String.valueOf(quest[1]);
+                    AnsB=String.valueOf(quest[2]);
+                    AnsC=String.valueOf(quest[3]);
+                    AnsD=String.valueOf(quest[4]);
                 }
             }
 
@@ -136,7 +169,7 @@ public class Question {
             Parent endingRoot = loader.load();
             EndingScreen endingController = loader.getController();
             endingController.setScore(scoreG);
-            endingController.setQuestion(questionFromDataBase);
+            endingController.setQuestion(Quest);
             endingController.setCorrect(correct);
             Scene endingScene = new Scene(endingRoot);
             Stage stage = (Stage) backToMenuButton.getScene().getWindow();

@@ -52,22 +52,27 @@ public class EndingScreen {
     }
 
     public void setQuestion(String questionText) {
+
+        String quest = Question.getQuestion();
+
         if (questionLvl != 10) {
-            question.setText("Question: " + questionText);
+            question.setText("Question: " + quest);
         } else {
             question.setText("Winner!");
         }
     }
 
     public void setCorrect(String correct) {
+        String corr = Question.getCorrectAns();
         if (questionLvl != 10) {
-            correct_answer.setText("Correct: " + correct);
+            correct_answer.setText("Correct: " + corr);
         } else {
             correct_answer.setText(" ");
         }
     }
 
     public void initialize() {
+
         back_button.setOnAction(this::goBackToMainMenu);
     }
 
