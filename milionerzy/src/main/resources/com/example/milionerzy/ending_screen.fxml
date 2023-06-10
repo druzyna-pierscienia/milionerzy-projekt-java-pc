@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.milionerzy.EndingScreen"
-            prefHeight="400.0" prefWidth="600.0">
-    <Text fx:id="position1" layoutX="250.0" layoutY="50.0" text="Congratulations" />
-    <Text fx:id="final_score" layoutX="250.0" layoutY="100.0" text="score" />
-    <Text fx:id="question" layoutX="250.0" layoutY="140.0" text="question" />
-    <Text fx:id="correct_answer" layoutX="250.0" layoutY="180.0" text="correct answer" />
-    <Button fx:id="back_button" layoutX="50.0" layoutY="340.0" mnemonicParsing="false" text="BACK" />
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.EndingScreen">
+    <Text fx:id="position1" fill="WHITE" layoutX="230.0" layoutY="190.0" text="Congratulations">
+      <font>
+         <Font size="20.0" />
+      </font></Text>
+    <Text fx:id="final_score" fill="WHITE" layoutX="286.0" layoutY="230.0" text="score" />
+    <Text fx:id="question" fill="WHITE" layoutX="120.0" layoutY="270.0" text="question" />
+    <Text fx:id="correct_answer" fill="WHITE" layoutX="261.0" layoutY="310.0" text="correct answer" />
+    <Button fx:id="back_button" layoutX="225.0" layoutY="350.0" minWidth="150.0" mnemonicParsing="false" text="BACK" />
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="240.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@milionerzyl_logo.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
