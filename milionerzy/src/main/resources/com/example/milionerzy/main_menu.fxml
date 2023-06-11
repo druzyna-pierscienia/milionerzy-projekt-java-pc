@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.MainMenu">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.MainMenu">
    <children>
-      <Button fx:id="newGame_button" layoutX="261.0" layoutY="124.0" mnemonicParsing="false" text="NEW GAME" />
-      <Button fx:id="scoreBoard_button" layoutX="252.0" layoutY="187.0" mnemonicParsing="false" text="SCORE BOARD" />
-      <Button fx:id="aboutApp_button" layoutX="248.0" layoutY="243.0" mnemonicParsing="false" text="ABOUT THE APP" />
-      <Button fx:id="logout_button" layoutX="268.0" layoutY="294.0" mnemonicParsing="false" onAction="#logOut" text="LOGOUT" />
+      <Button fx:id="newGame_button" layoutX="225.0" layoutY="170.0" minWidth="150.0" mnemonicParsing="false" text="NEW GAME" />
+      <Button fx:id="scoreBoard_button" layoutX="225.0" layoutY="225.0" minWidth="150.0" mnemonicParsing="false" text="SCORE BOARD" />
+      <Button fx:id="aboutApp_button" layoutX="225.0" layoutY="280.0" minWidth="150.0" mnemonicParsing="false" text="ABOUT THE APP" />
+      <Button fx:id="logout_button" layoutX="225.0" layoutY="335.0" minWidth="150.0" mnemonicParsing="false" onAction="#logOut" text="LOGOUT" />
+      <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="239.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@milionerzyl_logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.AboutApp">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.AboutApp">
    <children>
-      <Button fx:id="back_button" layoutX="50.0" layoutY="340.0" mnemonicParsing="false" text="BACK" />
-      <Label layoutX="287.0" layoutY="118.0" text="OPIS" />
+      <Button fx:id="back_button" layoutX="225.0" layoutY="330.0" minWidth="150.0" mnemonicParsing="false" text="BACK" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="239.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@milionerzyl_logo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="177.0" layoutY="162.0" text="Aplikacja ma być grą która posiada 10 etapów." textFill="WHITE" />
+      <Label layoutX="70.0" layoutY="180.0" text="Na każdym z etapów mająpojawiać się 4 pytania z których tylko jedna jest prawidłowa" textFill="WHITE" />
+      <Label layoutX="155.0" layoutY="200.0" text="dodatkowo każde pytanie malimit czasu na odpowiedź" textFill="WHITE" />
+      <Label layoutX="194.0" layoutY="218.0" text="Można skorzystać z 3 kół ratunkowych:" textFill="WHITE" />
+      <Label layoutX="277.0" layoutY="236.0" text="- 50/50" textFill="WHITE" />
+      <Label layoutX="235.0" layoutY="272.0" text="- Pytanie do publicznośc" textFill="WHITE" />
+      <Label layoutX="235.0" layoutY="254.0" text="- Telefon do przyjaciela" textFill="WHITE" />
    </children>
 </AnchorPane>

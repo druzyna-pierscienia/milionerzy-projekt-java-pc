@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.Question">
-<Text fx:id="question_text" layoutX="275.0" layoutY="33.0" text="Kliknij NASTĘPNE" />
-   <Button fx:id="odpA" layoutX="194.0" layoutY="118.0" mnemonicParsing="false" text="NASTĘPNE" />
-   <Button fx:id="odpB" layoutX="342.0" layoutY="118.0" mnemonicParsing="false" text="B" />
-   <Button fx:id="odpC" layoutX="194.0" layoutY="175.0" mnemonicParsing="false" text="C" />
-   <Button fx:id="odpD" layoutX="342.0" layoutY="175.0" mnemonicParsing="false" text="D" />
-   <Button fx:id="hint5050" layoutX="142.0" layoutY="300.0" mnemonicParsing="false" text="50/50" />
-   <Button fx:id="hintAudience" layoutX="274.0" layoutY="300.0" mnemonicParsing="false" text="audience" />
-   <Button fx:id="hintPhone" layoutX="394.0" layoutY="300.0" mnemonicParsing="false" text="phone" />
-   <Button fx:id="backToMenuButton" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" text="MENU" />
+<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.Question">
+<Text fx:id="question_text" fill="WHITE" layoutX="200.0" layoutY="200.0" text="Kliknij NASTĘPNE" textAlignment="CENTER" />
+   <Button fx:id="odpA" layoutX="200.0" layoutY="230.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="NASTĘPNE" />
+   <Button fx:id="odpB" layoutX="450.0" layoutY="230.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="B" />
+   <Button fx:id="odpC" layoutX="200.0" layoutY="310.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="C" />
+   <Button fx:id="odpD" layoutX="450.0" layoutY="310.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="D" />
+   <Button fx:id="hint5050" layoutX="170.0" layoutY="390.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" text="50/50" />
+   <Button fx:id="hintAudience" layoutX="350.0" layoutY="390.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" text="audience" />
+   <Button fx:id="hintPhone" layoutX="530.0" layoutY="390.0" minHeight="50.0" minWidth="100.0" mnemonicParsing="false" text="phone" />
+   <Button fx:id="backToMenuButton" layoutX="10.0" layoutY="7.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" text="MENU" />
+   <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="339.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@milionerzyl_logo.png" />
+      </image>
+   </ImageView>
    
 </AnchorPane>

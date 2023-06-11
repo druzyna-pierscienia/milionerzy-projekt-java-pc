@@ -297,7 +297,31 @@ public class Question {
 
         // Tworzenie wiadomości dla okna dialogowego
         String message;
-        if (correct.equals("a")) {
+        if (correct.equals("a") && odpB.isDisabled() && odpC.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceA + "%\nB: " + chanceD + "%\nC: " + chanceC + "%\nD: " + chanceB + "%";
+        } else if (correct.equals("a") && odpB.isDisabled() && odpD.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceA + "%\nB: " + chanceC + "%\nC: " + chanceB + "%\nD: " + chanceD + "%";
+        } else if (correct.equals("a") && odpC.isDisabled() && odpD.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceA + "%\nB: " + chanceC + "%\nC: " + chanceB + "%\nD: " + chanceD + "%";
+        } else if (correct.equals("b") && odpA.isDisabled() && odpD.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceC + "%\nB: " + chanceA + "%\nC: " + chanceB + "%\nD: " + chanceD + "%";
+        } else if (correct.equals("b") && odpC.isDisabled() && odpA.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceC + "%\nB: " + chanceA + "%\nC: " + chanceD + "%\nD: " + chanceB + "%";
+        } else if (correct.equals("b") && odpC.isDisabled() && odpD.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceB + "%\nB: " + chanceA + "%\nC: " + chanceC + "%\nD: " + chanceD + "%";
+        } else if (correct.equals("c") && odpA.isDisabled() && odpD.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceC + "%\nB: " + chanceB + "%\nC: " + chanceA + "%\nD: " + chanceD + "%";
+        } else if (correct.equals("c") && odpB.isDisabled() && odpA.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceC + "%\nB: " + chanceD + "%\nC: " + chanceA + "%\nD: " + chanceB + "%";
+        } else if (correct.equals("c") && odpB.isDisabled() && odpD.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceB + "%\nB: " + chanceC + "%\nC: " + chanceA + "%\nD: " + chanceD + "%";
+        } else if (correct.equals("d") && odpA.isDisabled() && odpB.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceC + "%\nB: " + chanceD + "%\nC: " + chanceB + "%\nD: " + chanceA + "%";
+        } else if (correct.equals("d") && odpC.isDisabled() && odpA.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceC + "%\nB: " + chanceB + "%\nC: " + chanceD + "%\nD: " + chanceA + "%";
+        } else if (correct.equals("d") && odpB.isDisabled() && odpC.isDisabled()) {
+            message = "Pytanie do publiczności:\nA: " + chanceB + "%\nB: " + chanceC + "%\nC: " + chanceD + "%\nD: " + chanceA + "%";
+        } else if (correct.equals("a")) {
             message = "Pytanie do publiczności:\nA: " + chanceA + "%\nB: " + chanceB + "%\nC: " + chanceC + "%\nD: " + chanceD + "%";
         } else if (correct.equals("b")) {
             message = "Pytanie do publiczności:\nA: " + chanceB + "%\nB: " + chanceA + "%\nC: " + chanceC + "%\nD: " + chanceD + "%";
