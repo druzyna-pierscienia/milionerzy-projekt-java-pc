@@ -66,7 +66,7 @@ public class Question {
             } else {
                 String[] quest = result.split("/");
 
-                question_text.setText(quest[0] + " " + questionLvl);
+                question_text.setText(quest[0]);
                 Platform.runLater(() -> odpA.setText(quest[1]));
                 Platform.runLater(() -> odpB.setText(quest[2]));
                 Platform.runLater(() -> odpC.setText(quest[3]));
@@ -153,7 +153,7 @@ public class Question {
                 } else {
                     String[] quest = result.split("/");
 
-                    question_text.setText(quest[0] + " " + questionLvl);
+                    question_text.setText(quest[0]);
                     Platform.runLater(() -> odpA.setText(quest[1]));
                     Platform.runLater(() -> odpB.setText(quest[2]));
                     Platform.runLater(() -> odpC.setText(quest[3]));
