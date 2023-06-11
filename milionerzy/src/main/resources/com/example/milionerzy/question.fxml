@@ -6,7 +6,11 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.Question">
-<Text fx:id="question_text" fill="WHITE" layoutX="200.0" layoutY="200.0" text="Kliknij NASTĘPNE" textAlignment="CENTER" />
+<TextFlow prefWidth="500.0" layoutX="150.0" layoutY="170.0" textAlignment="CENTER">
+   <Text fx:id="question_text" fill="WHITE" layoutX="200.0" layoutY="200.0" text="Kliknij NASTĘPNE" textAlignment="CENTER" />
+
+</TextFlow>
+
    <Button fx:id="odpA" layoutX="200.0" layoutY="230.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="NASTĘPNE" />
    <Button fx:id="odpB" layoutX="450.0" layoutY="230.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="B" />
    <Button fx:id="odpC" layoutX="200.0" layoutY="310.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" text="C" />
