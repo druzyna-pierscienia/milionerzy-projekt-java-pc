@@ -8,6 +8,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sun.mail.smtp.SMTPTransport;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
+
+
 import java.sql.*;
 import java.util.Random;
 
@@ -254,4 +264,116 @@ public class MyApiApplication {
         }
         return success;
     }
+
+    private String getActivationCodeFromDatabase(String login) {
+        Connect connect = new Connect();
+        Connection connection = connect.getConnection();
+        String activationCode = null;
+
+        if (connection != null) {
+            try {
+                String query = "SELECT kod FROM milionerzy.kody_aktywacji " +
+                        "JOIN milionerzy.uzytkownicy ON kody_aktywacji.id_uzytkownika = uzytkownicy.id_uzytkownika " +
+                        "WHERE uzytkownicy.login = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, login);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    activationCode = resultSet.getString("kod");
+                }
+
+                resultSet.close();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                connect.close();
+            }
+        }
+
+        return activationCode;
+    }
+
+
+    private String getEmailFromDatabase(String login) {
+        Connect connect = new Connect();
+        Connection connection = connect.getConnection();
+        String email = null;
+
+        if (connection != null) {
+            try {
+                String query = "SELECT mail FROM milionerzy.uzytkownicy WHERE login = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, login);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    email = resultSet.getString("mail");
+                }
+
+                resultSet.close();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                connect.close();
+            }
+        }
+
+        return email;
+    }
+
+    private void sendActivationEmail(String email, String activationCode) {
+        // Konfiguracja sesji JavaMail
+        Properties props = System.getProperties();
+        props.put("mail.smtps.host", "smtp.gmail.com");
+        props.put("mail.smtps.auth", "true");
+
+        // Tworzenie sesji
+        Session session = Session.getInstance(props, null);
+
+        // Tworzenie wiadomości email
+        MimeMessage msg = new MimeMessage(session);
+        try {
+            msg.setFrom(new InternetAddress("your-email@gmail.com")); // Tu podaj prawdziwy adres e-mail
+            msg.setRecipients(Message.RecipientType.TO, email);
+            msg.setSubject("Activation Code for YourApp");
+            msg.setText("Your activation code is: " + activationCode);
+
+            // Autentykacja i wysyłka wiadomości
+            SMTPTransport transport = (SMTPTransport) session.getTransport("smtps");
+            transport.connect("smtp.gmail.com", "your-email@gmail.com", "your-email-password"); // Tu podaj prawdziwe dane logowania
+            transport.sendMessage(msg, msg.getAllRecipients());
+            transport.close();
+        } catch (AddressException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("/sendActivationCode")
+    public String sendActivationCode(@RequestParam(name = "login") String login) {
+        String activationCode = getActivationCodeFromDatabase(login);
+
+        if (activationCode != null) {
+            String email = getEmailFromDatabase(login);
+
+            if (email != null) {
+                sendActivationEmail(email, activationCode);
+                return "Activation code sent successfully";
+            } else {
+                return "Error: User does not have a valid email address.";
+            }
+        } else {
+            return "Error: Activation code not found in the database.";
+        }
+    }
+
+
+
+
 }
