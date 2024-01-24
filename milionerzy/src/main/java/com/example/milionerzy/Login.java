@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 public class Login {
 
@@ -21,57 +20,104 @@ public class Login {
     private PasswordField password_text;
 
     @FXML
-    protected void logIn(){
-        // Pobieranie 'response' z bazy
-        ApiRequest.executeRequest("http://localhost:8080/login?login=" + username_text.getText() + "&password=" + password_text.getText(), new ApiRequest.ApiCallback() {
-            @Override
-            public void onResponse(String result) {
-                Platform.runLater(() -> {
-                    if (result.equals("true")) {
-                        try {
+    protected void logIn() {
+        ApiRequest.executeRequest("http://localhost:8080/getActivationStatus?login=" + username_text.getText(),
+                new ApiRequest.ApiCallback() {
 
-                            User user = new User();
-                            user.logUserIn(username_text.getText());
+                    @Override
+                    public void onResponse(String result) {
+                        Platform.runLater(() -> {
+                            if (result.equals("Not Activated")) {
+                                try {
+                                    User user = new User();
+                                    user.logUserIn(username_text.getText());
 
-                            // Ładowanie pliku FXML dla nowej sceny
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
-                            Parent root = loader.load();
+                                    // Ładowanie pliku FXML dla nowej sceny
+                                    FXMLLoader loader = new FXMLLoader(
+                                            getClass().getResource("confirm.fxml"));
+                                    Parent root = loader.load();
 
-                            // Tworzenie sceny na podstawie załadowanego pliku FXML
-                            Scene scene = new Scene(root);
+                                    // Tworzenie sceny na podstawie załadowanego pliku FXML
+                                    Scene scene = new Scene(root);
 
-                            // Pobieranie obiektu Stage z bieżącego widoku
-                            Stage stage = (Stage) password_text.getScene().getWindow();
+                                    // Pobieranie obiektu Stage z bieżącego widoku
+                                    Stage stage = (Stage) username_text.getScene().getWindow();
 
-                            // Ustawianie nowej sceny na Stage
-                            stage.setScene(scene);
+                                    // Ustawianie nowej sceny na Stage
+                                    stage.setScene(scene);
 
-                            // Wyświetlanie nowej sceny
-                            stage.show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Failed to log in");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Incorrect username or password");
+                                    // Wyświetlanie nowej sceny
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                // Jeśli konto jest aktywowane, wykonaj logowanie z hasłem
+                                performLogin();
+                            }
+                        });
+                    }
 
-                        // Wyświetlanie okna alertu
-                        alert.showAndWait();
+                    @Override
+                    public void onError(Exception e) {
+                        throw new RuntimeException(e);
                     }
                 });
-            }
+    }
 
-            @Override
-            public void onError(Exception e) {
-                throw new RuntimeException(e);
-            }
-        });
+    private void performLogin() {
+        ApiRequest.executeRequest(
+                "http://localhost:8080/login?login=" + username_text.getText() + "&password="
+                        + password_text.getText(),
+                new ApiRequest.ApiCallback() {
+                    @Override
+                    public void onResponse(String result) {
+                        Platform.runLater(() -> {
+                            if (result.equals("true")) {
+                                try {
+                                    User user = new User();
+                                    user.logUserIn(username_text.getText());
+
+                                    // Ładowanie pliku FXML dla nowej sceny
+                                    FXMLLoader loader = new FXMLLoader(
+                                            getClass().getResource("main_menu.fxml"));
+                                    Parent root = loader.load();
+
+                                    // Tworzenie sceny na podstawie załadowanego pliku FXML
+                                    Scene scene = new Scene(root);
+
+                                    // Pobieranie obiektu Stage z bieżącego widoku
+                                    Stage stage = (Stage) password_text.getScene().getWindow();
+
+                                    // Ustawianie nowej sceny na Stage
+                                    stage.setScene(scene);
+
+                                    // Wyświetlanie nowej sceny
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Failed to log in");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Incorrect username or password");
+
+                                // Wyświetlanie okna alertu
+                                alert.showAndWait();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     @FXML
-    protected void registration(){
+    protected void registration() {
         try {
             // Ładowanie pliku FXML dla nowej sceny
             FXMLLoader loader = new FXMLLoader(getClass().getResource("registration.fxml"));
@@ -92,5 +138,4 @@ public class Login {
             e.printStackTrace();
         }
     }
-
 }

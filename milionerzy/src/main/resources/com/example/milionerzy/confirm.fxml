@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3F51B5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.milionerzy.Confirm">
+    <children>
+        <TextField fx:id="code_text" layoutX="225.0" layoutY="170.0" AnchorPane.topAnchor="200.0" />
+        <Button fx:id="resend_button" layoutX="225.0" layoutY="280.0" minWidth="150.0" mnemonicParsing="false" onAction="#resend" text="Resend Code" AnchorPane.topAnchor="240.0" />
+        <Button fx:id="confirm_button" layoutX="225.0" layoutY="335.0" minWidth="150.0" mnemonicParsing="false" onAction="#confirm" text="Confirm Code" AnchorPane.topAnchor="280.0" />
+        <Label layoutX="225.0" layoutY="155.0" text="Code" textFill="WHITE" AnchorPane.topAnchor="185.0" />
+        <ImageView fx:id="logo" fitHeight="151.0" fitWidth="150.0" layoutX="239.0" pickOnBounds="true" preserveRatio="true" styleClass="image-view-class">
+            <image>
+                <Image url="@milionerzyl_logo.png" />
+            </image></ImageView>
+
+
+
+    </children>
+</AnchorPane>
+
