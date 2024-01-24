@@ -94,7 +94,12 @@ public class Question {
         odpD.setOnAction(this::answerD);
         hint5050.setOnAction(this::useHint5050);
         hintAudience.setOnAction(this::useHintAudience);
-        hintPhone.setOnAction(this::useHintPhone);
+        hintPhone.setOnAction(event -> {
+
+            int questionNumber = questionLvl;
+
+            useHintPhone(event, questionNumber);
+        });
 
 
     }
@@ -342,13 +347,30 @@ public class Question {
         hintAudience.setVisible(false);
     }
 
-    private void useHintPhone(ActionEvent event) {
-        // TODO: Implementacja metody hintPhone
+    private void useHintPhone(ActionEvent event, Integer questionLvl) {
+
         // Wylosuj procentową szansę na poprawną odpowiedź przy użyciu "telefonu do przyjaciela"
+        int chance = 0;
+        String message;
+        // Określenie szansy w zależności od numeru pytania
+        if (questionLvl >= 1 && questionLvl <= 3) {
+            // Dla pytań 1-3 zawsze poprawna odpowiedź
+            chance = 100;
+        } else if (questionLvl >= 4 && questionLvl <= 6) {
+            // Dla pytań 4-6 60% szansy na poprawną odpowiedź
+            chance = 60;
+        } else if (questionLvl >= 7 && questionLvl <= 9) {
+            // Dla pytań 7-9 20% szansy na poprawną odpowiedź
+            chance = 20;
+        } else if (questionLvl == 10) {
+            // Dla ostatniego pytania zawsze odpowiedź, że nie zna
+            message = "Twój przyjaciel nie jest pewien odpowiedzi, trudno powiedzieć...";
+            return;
+        }
         boolean isAnswerCorrect = new Random().nextInt(100) < 75;
 
         // Tworzenie wiadomości dla okna dialogowego
-        String message;
+
         if (isAnswerCorrect) {
             message = "Twój przyjaciel pomógł Ci, poprawna odpowiedź to: " + correct;
         } else {
@@ -366,4 +388,9 @@ public class Question {
         hintPhone.setVisible(false);
 
     }
+
+
+
+
+
 }
