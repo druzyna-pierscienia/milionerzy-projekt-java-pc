@@ -11,20 +11,21 @@
          <Font size="20.0" />
       </font></Text>
 
-    <TextFlow prefWidth="400.0" prefHeight="80.0" layoutY="230.0" textAlignment="CENTER" layoutX="100.0">
+    <TextFlow layoutX="100.0" layoutY="230.0" prefHeight="80.0" prefWidth="400.0" textAlignment="CENTER">
     <Text fx:id="final_score" fill="WHITE" layoutX="286.0" layoutY="230.0" text="score" />
     </TextFlow>
-    <TextFlow prefWidth="400.0" prefHeight="80.0" textAlignment="CENTER" layoutX="100.0" layoutY="250">
+    <TextFlow layoutX="100.0" layoutY="250" prefHeight="80.0" prefWidth="400.0" textAlignment="CENTER">
     <Text fx:id="question" fill="WHITE" layoutX="120.0" layoutY="270.0" text="question" />
     </TextFlow>
 
-    <TextFlow prefWidth="400.0" prefHeight="80.0" layoutY="310.0" layoutX="100.0" textAlignment="CENTER">
+    <TextFlow layoutX="100.0" layoutY="310.0" prefHeight="80.0" prefWidth="400.0" textAlignment="CENTER">
     <Text fx:id="correct_answer" fill="WHITE" layoutX="261.0" layoutY="310.0" text="correct answer" />
     </TextFlow>
-    <Button fx:id="back_button" layoutX="225.0" layoutY="350.0" minWidth="150.0" mnemonicParsing="false" text="BACK" />
+    <Button fx:id="back_button" layoutX="311.0" layoutY="350.0" minWidth="100.0" mnemonicParsing="false" text="BACK" />
    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="240.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@milionerzyl_logo.png" />
       </image>
    </ImageView>
+   <Button fx:id="send_button" layoutX="190.0" layoutY="350.0" minWidth="100.0" mnemonicParsing="false" onAction="#sendScore" text="Send Score" />
 </AnchorPane>

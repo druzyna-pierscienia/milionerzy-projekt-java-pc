@@ -48,25 +48,7 @@ public class Confirm {
                     @Override
                     public void onResponse(String result) {
                         if (result.equals(code_text.getText())) {
-                            try {
-                                // Ładowanie pliku FXML dla nowej sceny
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
-                                Parent root = loader.load();
-
-                                // Tworzenie sceny na podstawie załadowanego pliku FXML
-                                Scene scene = new Scene(root);
-
-                                // Pobieranie obiektu Stage z bieżącego widoku
-                                Stage stage = (Stage) code_text.getScene().getWindow();
-
-                                // Ustawianie nowej sceny na Stage
-                                stage.setScene(scene);
-
-                                // Wyświetlanie nowej sceny
-                                stage.show();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            backToMenu();
                         } else {
                             // Dodanie obsługi błędu w przypadku niepoprawnego kodu aktywacyjnego
                             Platform.runLater(() -> {
@@ -77,6 +59,54 @@ public class Confirm {
                                 alert.showAndWait();
                             });
                         }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
+
+    private void backToMenu() {
+        String login = User.getUserLogin();
+        ApiRequest.executeRequest(
+                "http://localhost:8080/activateUser?login=" + login,
+                new ApiRequest.ApiCallback() {
+                    @Override
+                    public void onResponse(String result) {
+                        Platform.runLater(() -> {
+                            if (result.equals("User activated successfully")) {
+                                try {
+                                    // Ładowanie pliku FXML dla nowej sceny
+                                    FXMLLoader loader = new FXMLLoader(
+                                            getClass().getResource("main_menu.fxml"));
+                                    Parent root = loader.load();
+
+                                    // Tworzenie sceny na podstawie załadowanego pliku FXML
+                                    Scene scene = new Scene(root);
+
+                                    // Pobieranie obiektu Stage z bieżącego widoku
+                                    Stage stage = (Stage) code_text.getScene().getWindow();
+
+                                    // Ustawianie nowej sceny na Stage
+                                    stage.setScene(scene);
+
+                                    // Wyświetlanie nowej sceny
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Failed");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Didn't activated");
+
+                                // Wyświetlanie okna alertu
+                                alert.showAndWait();
+                            }
+                        });
                     }
 
                     @Override

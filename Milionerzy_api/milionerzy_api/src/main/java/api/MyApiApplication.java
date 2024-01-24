@@ -279,6 +279,7 @@ public class MyApiApplication {
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, login);
 
+
                 ResultSet resultSet = statement.executeQuery();
 
                 if (resultSet.next()) {

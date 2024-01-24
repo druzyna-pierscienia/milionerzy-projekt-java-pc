@@ -1,10 +1,12 @@
 package com.example.milionerzy;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,6 +26,7 @@ public class EndingScreen {
     @FXML
     private Text correct_answer;
     private int questionLvl = 0;
+    private int scoreToSend = 0;
 
     public void setLvl(int Lvl) {
         questionLvl = Lvl;
@@ -31,6 +34,7 @@ public class EndingScreen {
 
     public void setScore(int score) {
         final_score.setText("Score: " + score);
+        scoreToSend = score;
         String login = User.getUserLogin();
         String url = "http://localhost:8080/saveScore?login="+login+"&score="+score;
 
@@ -88,5 +92,52 @@ public class EndingScreen {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void sendScore(){
+        String login = User.getUserLogin();
+        ApiRequest.executeRequest(
+                "http://localhost:8080/sendScore?login=" + login + "&wynik=" + scoreToSend,
+                new ApiRequest.ApiCallback() {
+                    @Override
+                    public void onResponse(String result) {
+                        Platform.runLater(() -> {
+                            if (result.equals("Score sent successfully")) {
+                                try {
+                                    // Ładowanie pliku FXML dla nowej sceny
+                                    FXMLLoader loader = new FXMLLoader(
+                                            getClass().getResource("main_menu.fxml"));
+                                    Parent root = loader.load();
+
+                                    // Tworzenie sceny na podstawie załadowanego pliku FXML
+                                    Scene scene = new Scene(root);
+
+                                    // Pobieranie obiektu Stage z bieżącego widoku
+                                    Stage stage = (Stage) final_score.getScene().getWindow();
+
+                                    // Ustawianie nowej sceny na Stage
+                                    stage.setScene(scene);
+
+                                    // Wyświetlanie nowej sceny
+                                    stage.show();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Failed");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Score sent unsuccessfully");
+
+                                // Wyświetlanie okna alertu
+                                alert.showAndWait();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 }
