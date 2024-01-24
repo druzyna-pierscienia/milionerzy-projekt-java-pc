@@ -405,7 +405,7 @@ public class MyApiApplication {
         }
     }
 
-    @PostMapping("/activateUser")
+    @GetMapping("/activateUser")
     public String activateUser(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
@@ -413,8 +413,7 @@ public class MyApiApplication {
         if (connection != null) {
             try {
                 // Aktualizacja flagi aktywacji
-                String updateActivationFlagQuery = "UPDATE milionerzy.uzytkownicy SET aktywowane = true " +
-                        "WHERE login = ?";
+                String updateActivationFlagQuery = "UPDATE milionerzy.uzytkownicy SET aktywowane = true WHERE login = ?";
                 PreparedStatement updateActivationFlagStatement = connection.prepareStatement(updateActivationFlagQuery);
                 updateActivationFlagStatement.setString(1, login);
 
