@@ -352,28 +352,20 @@ public class MyApiApplication {
             message.setFrom(new InternetAddress("from@gmail.com"));
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse(email) //wiktorwarmuz33@gmail.com
+                    InternetAddress.parse(email)
             );
-            message.setSubject("Kod");
+            message.setSubject("Milionerzy - Kod aktywacyjny");
 
             // Create the message part
             BodyPart messageBodyPart = new MimeBodyPart();
 
             // Now set the actual message
-            messageBodyPart.setText(activationCode);
+            messageBodyPart.setText("Kod: "+activationCode);
 
             // Create a multipar message
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
 
-            //  message.setText(tresc );
-
-           // messageBodyPart = new MimeBodyPart();
-            //String filename = "C:\\Users\\wikto\\OneDrive\\Pulpit\\pdf\\wzory_algebra_analiza.pdf";
-           // DataSource source = new FileDataSource(filename);
-            //messageBodyPart.setDataHandler(new DataHandler(source));
-           // messageBodyPart.setFileName(filename);
-           // multipart.addBodyPart(messageBodyPart);
 
             message.setContent(multipart);
 
@@ -510,6 +502,73 @@ public class MyApiApplication {
     }
 
 
+    private void sendScoreEmail(String email, Integer score) {
+        final String username = "javatok121@gmail.com";
+        //final String username = nadawca;
+        final String password = "ulbfkfxedyvjiwpk";
+
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("from@gmail.com"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(email)
+            );
+            message.setSubject("Milionerzy - Wynik gry");
+
+            // Create the message part
+            BodyPart messageBodyPart = new MimeBodyPart();
+
+            // Now set the actual message
+            messageBodyPart.setText("Wynik: "+score.toString());
+
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @GetMapping("/sendScore")
+    public String sendScore(@RequestParam(name = "login") String login,@RequestParam(name = "wynik") Integer wynik) {
+
+
+
+            String email = getEmailFromDatabase(login);
+
+            if (email != null) {
+                sendScoreEmail(email, wynik);
+                return "Score sent successfully";
+            } else {
+                return "Error: User does not have a valid email address.";
+            }
+
+    }
 
 
 }
