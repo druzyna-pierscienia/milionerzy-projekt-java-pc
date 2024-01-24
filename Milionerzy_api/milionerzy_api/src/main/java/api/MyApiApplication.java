@@ -151,9 +151,10 @@ public class MyApiApplication {
     }
 
     @PostMapping("/register")
-    public String addUser(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, @RequestParam(name = "mail") String mail) {
+    public String addUser(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, @RequestParam(name = "mail") String mail, @RequestParam(name = "aktywowane") Boolean aktywowane) {
         String success = "0";
         int count = 0;
+
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
         if (connection != null) {
@@ -181,13 +182,14 @@ public class MyApiApplication {
                 }else {
 
                     // Utworzenie zapytania SQL
-                    query = "INSERT INTO milionerzy.uzytkownicy (login, haslo, mail) VALUES (?, ?, ?)";
+                    query = "INSERT INTO milionerzy.uzytkownicy (login, haslo, mail, aktywowane) VALUES (?, ?, ?, false)";
 
-                    // Przygotowanie instrukcji SQL z parametrami
                     PreparedStatement statement2 = connection.prepareStatement(query);
                     statement2.setString(1, login);
                     statement2.setString(2, password);
                     statement2.setString(3, mail);
+                    statement2.setBoolean(4, aktywowane);
+
 
                     // Wykonanie instrukcji SQL
                     int rowsAffected = statement2.executeUpdate();
@@ -374,45 +376,27 @@ public class MyApiApplication {
     }
 
     @PostMapping("/activateUser")
-    public String activateUser(@RequestParam(name = "login") String login,
-                               @RequestParam(name = "activationCode") String activationCode) {
+    public String activateUser(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
 
         if (connection != null) {
             try {
-                // Sprawdzenie poprawności kodu aktywacyjnego
-                String checkActivationCodeQuery = "SELECT id_kodu FROM milionerzy.kody_aktywacji " +
-                        "JOIN milionerzy.uzytkownicy ON kody_aktywacji.id_uzytkownika = uzytkownicy.id_uzytkownika " +
-                        "WHERE uzytkownicy.login = ? AND kody_aktywacji.kod = ?";
-                PreparedStatement checkActivationCodeStatement = connection.prepareStatement(checkActivationCodeQuery);
-                checkActivationCodeStatement.setString(1, login);
-                checkActivationCodeStatement.setString(2, activationCode);
+                // Aktualizacja flagi aktywacji
+                String updateActivationFlagQuery = "UPDATE milionerzy.uzytkownicy SET aktywowane = true " +
+                        "WHERE login = ?";
+                PreparedStatement updateActivationFlagStatement = connection.prepareStatement(updateActivationFlagQuery);
+                updateActivationFlagStatement.setString(1, login);
 
-                ResultSet activationCodeResultSet = checkActivationCodeStatement.executeQuery();
+                int rowsAffected = updateActivationFlagStatement.executeUpdate();
 
-                if (activationCodeResultSet.next()) {
-                    // Aktualizacja flagi aktywacji
-                    String updateActivationFlagQuery = "UPDATE milionerzy.uzytkownicy SET aktywowane = true " +
-                            "WHERE login = ?";
-                    PreparedStatement updateActivationFlagStatement = connection.prepareStatement(updateActivationFlagQuery);
-                    updateActivationFlagStatement.setString(1, login);
+                // Zamknięcie obiektów PreparedStatement
+                updateActivationFlagStatement.close();
 
-                    int rowsAffected = updateActivationFlagStatement.executeUpdate();
-
-                    // Zamknięcie obiektów ResultSet i PreparedStatement
-                    activationCodeResultSet.close();
-                    checkActivationCodeStatement.close();
-                    updateActivationFlagStatement.close();
-
-                    if (rowsAffected > 0) {
-                        return "User activated successfully";
-                    } else {
-                        return "Error: Unable to update activation status";
-                    }
+                if (rowsAffected > 0) {
+                    return "User activated successfully";
                 } else {
-                    // Błędny kod aktywacyjny
-                    return "Error: Invalid activation code";
+                    return "Error: Unable to update activation status";
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -424,6 +408,77 @@ public class MyApiApplication {
         return "Error: Database connection error";
     }
 
+    @GetMapping("/getActivationCode")
+    public String getActivationCode(@RequestParam(name = "login") String login) {
+        Connect connect = new Connect();
+        Connection connection = connect.getConnection();
+
+        if (connection != null) {
+            try {
+                String query = "SELECT kod FROM milionerzy.kody_aktywacji " +
+                        "JOIN milionerzy.uzytkownicy ON kody_aktywacji.id_uzytkownika = uzytkownicy.id_uzytkownika " +
+                        "WHERE uzytkownicy.login = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, login);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    String activationCode = resultSet.getString("kod");
+                    resultSet.close();
+                    statement.close();
+                    connect.close();
+                    return activationCode;
+                } else {
+                    resultSet.close();
+                    statement.close();
+                    connect.close();
+                    return "Error: Activation code not found in the database.";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                connect.close();
+            }
+        }
+
+        return "Error: Database connection error";
+    }
+
+    @GetMapping("/getActivationStatus")
+    public String getActivationStatus(@RequestParam(name = "login") String login) {
+        Connect connect = new Connect();
+        Connection connection = connect.getConnection();
+
+        if (connection != null) {
+            try {
+                String query = "SELECT aktywowane FROM milionerzy.uzytkownicy WHERE login = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, login);
+
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    boolean activationStatus = resultSet.getBoolean("aktywowane");
+                    resultSet.close();
+                    statement.close();
+                    connect.close();
+                    return activationStatus ? "Activated" : "Not Activated";
+                } else {
+                    resultSet.close();
+                    statement.close();
+                    connect.close();
+                    return "Error: User not found in the database.";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                connect.close();
+            }
+        }
+
+        return "Error: Database connection error";
+    }
 
 
 
