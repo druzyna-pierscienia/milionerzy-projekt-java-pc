@@ -151,7 +151,7 @@ public class MyApiApplication {
     }
 
     @PostMapping("/register")
-    public String addUser(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, @RequestParam(name = "mail") String mail, @RequestParam(name = "aktywowane") Boolean aktywowane) {
+    public String addUser(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, @RequestParam(name = "mail") String mail) {
         String success = "0";
         int count = 0;
 
@@ -188,7 +188,6 @@ public class MyApiApplication {
                     statement2.setString(1, login);
                     statement2.setString(2, password);
                     statement2.setString(3, mail);
-                    statement2.setBoolean(4, aktywowane);
 
 
                     // Wykonanie instrukcji SQL
@@ -408,7 +407,7 @@ public class MyApiApplication {
         return "Error: Database connection error";
     }
 
-    @GetMapping("/getActivationCode")
+    @PostMapping("/getActivationCode")
     public String getActivationCode(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
