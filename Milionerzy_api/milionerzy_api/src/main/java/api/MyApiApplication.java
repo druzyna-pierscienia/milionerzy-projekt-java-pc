@@ -373,6 +373,58 @@ public class MyApiApplication {
         }
     }
 
+    @PostMapping("/activateUser")
+    public String activateUser(@RequestParam(name = "login") String login,
+                               @RequestParam(name = "activationCode") String activationCode) {
+        Connect connect = new Connect();
+        Connection connection = connect.getConnection();
+
+        if (connection != null) {
+            try {
+                // Sprawdzenie poprawności kodu aktywacyjnego
+                String checkActivationCodeQuery = "SELECT id_kodu FROM milionerzy.kody_aktywacji " +
+                        "JOIN milionerzy.uzytkownicy ON kody_aktywacji.id_uzytkownika = uzytkownicy.id_uzytkownika " +
+                        "WHERE uzytkownicy.login = ? AND kody_aktywacji.kod = ?";
+                PreparedStatement checkActivationCodeStatement = connection.prepareStatement(checkActivationCodeQuery);
+                checkActivationCodeStatement.setString(1, login);
+                checkActivationCodeStatement.setString(2, activationCode);
+
+                ResultSet activationCodeResultSet = checkActivationCodeStatement.executeQuery();
+
+                if (activationCodeResultSet.next()) {
+                    // Aktualizacja flagi aktywacji
+                    String updateActivationFlagQuery = "UPDATE milionerzy.uzytkownicy SET aktywowane = true " +
+                            "WHERE login = ?";
+                    PreparedStatement updateActivationFlagStatement = connection.prepareStatement(updateActivationFlagQuery);
+                    updateActivationFlagStatement.setString(1, login);
+
+                    int rowsAffected = updateActivationFlagStatement.executeUpdate();
+
+                    // Zamknięcie obiektów ResultSet i PreparedStatement
+                    activationCodeResultSet.close();
+                    checkActivationCodeStatement.close();
+                    updateActivationFlagStatement.close();
+
+                    if (rowsAffected > 0) {
+                        return "User activated successfully";
+                    } else {
+                        return "Error: Unable to update activation status";
+                    }
+                } else {
+                    // Błędny kod aktywacyjny
+                    return "Error: Invalid activation code";
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                connect.close();
+            }
+        }
+
+        return "Error: Database connection error";
+    }
+
+
 
 
 
