@@ -407,7 +407,7 @@ public class MyApiApplication {
         return "Error: Database connection error";
     }
 
-    @PostMapping("/getActivationCode")
+    @GetMapping("/getActivationCode")
     public String getActivationCode(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
