@@ -367,7 +367,7 @@ public class Question {
             message = "Twój przyjaciel nie jest pewien odpowiedzi, trudno powiedzieć...";
             return;
         }
-        boolean isAnswerCorrect = new Random().nextInt(100) < 75;
+        boolean isAnswerCorrect = new Random().nextInt(100) < chance;
 
         // Tworzenie wiadomości dla okna dialogowego
 
