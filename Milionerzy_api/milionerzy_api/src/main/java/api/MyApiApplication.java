@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sun.mail.smtp.SMTPTransport;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
 import java.util.Properties;
 
 
@@ -328,35 +328,66 @@ public class MyApiApplication {
     }
 
     private void sendActivationEmail(String email, String activationCode) {
-        // Konfiguracja sesji JavaMail
-        Properties props = System.getProperties();
-        props.put("mail.smtps.host", "smtp.gmail.com");
-        props.put("mail.smtps.auth", "true");
+         final String username = "javatok121@gmail.com";
+        //final String username = nadawca;
+        final String password = "ulbfkfxedyvjiwpk";
 
-        // Tworzenie sesji
-        Session session = Session.getInstance(props, null);
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-        // Tworzenie wiadomości email
-        MimeMessage msg = new MimeMessage(session);
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
         try {
-            msg.setFrom(new InternetAddress("your-email@gmail.com")); // Tu podaj prawdziwy adres e-mail
-            msg.setRecipients(Message.RecipientType.TO, email);
-            msg.setSubject("Activation Code for YourApp");
-            msg.setText("Your activation code is: " + activationCode);
 
-            // Autentykacja i wysyłka wiadomości
-            SMTPTransport transport = (SMTPTransport) session.getTransport("smtps");
-            transport.connect("smtp.gmail.com", "your-email@gmail.com", "your-email-password"); // Tu podaj prawdziwe dane logowania
-            transport.sendMessage(msg, msg.getAllRecipients());
-            transport.close();
-        } catch (AddressException e) {
-            e.printStackTrace();
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("from@gmail.com"));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(email) //wiktorwarmuz33@gmail.com
+            );
+            message.setSubject("Kod");
+
+            // Create the message part
+            BodyPart messageBodyPart = new MimeBodyPart();
+
+            // Now set the actual message
+            messageBodyPart.setText(activationCode);
+
+            // Create a multipar message
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            //  message.setText(tresc );
+
+           // messageBodyPart = new MimeBodyPart();
+            //String filename = "C:\\Users\\wikto\\OneDrive\\Pulpit\\pdf\\wzory_algebra_analiza.pdf";
+           // DataSource source = new FileDataSource(filename);
+            //messageBodyPart.setDataHandler(new DataHandler(source));
+           // messageBodyPart.setFileName(filename);
+           // multipart.addBodyPart(messageBodyPart);
+
+            message.setContent(multipart);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
 
-    @PostMapping("/sendActivationCode")
+
+    @GetMapping("/sendActivationCode")
     public String sendActivationCode(@RequestParam(name = "login") String login) {
         String activationCode = getActivationCodeFromDatabase(login);
 
