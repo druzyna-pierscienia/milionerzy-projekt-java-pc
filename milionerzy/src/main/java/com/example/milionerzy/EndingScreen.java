@@ -13,25 +13,47 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The `EndingScreen` class represents the controller for the ending screen in the Milionerzy (Who Wants to Be a Millionaire) application.
+ * It displays the final score, question, and correct answer (if applicable) and allows the user to navigate back to the main menu.
+ */
 public class EndingScreen {
 
+    /** Button for navigating back to the main menu. */
     public Button back_button;
 
+    /** Text displaying the final score. */
     @FXML
     private Text final_score;
 
+    /** Text displaying the final question. */
     @FXML
     private Text question;
 
+    /** Text displaying the correct answer (if applicable). */
     @FXML
     private Text correct_answer;
+
+    /** Variable representing the question level. */
     private int questionLvl = 0;
+
+    /** Variable representing the score to send to the server. */
     private int scoreToSend = 0;
 
+    /**
+     * Sets the question level.
+     *
+     * @param Lvl The question level to set.
+     */
     public void setLvl(int Lvl) {
         questionLvl = Lvl;
     }
 
+    /**
+     * Sets the final score and sends it to the server.
+     *
+     * @param score The final score to display and send.
+     */
     public void setScore(int score) {
         final_score.setText("Score: " + score);
         scoreToSend = score;
@@ -43,20 +65,24 @@ public class EndingScreen {
         ApiRequestInto.executeRequest(url, urlParameters, new ApiRequestInto.ApiCallback() {
             @Override
             public void onResponse(String result) {
-                // Obsługa odpowiedzi z serwera
-                System.out.println("Odpowiedź serwera: " + result + " Dla url: " + url);
+                // Handle the server response
+                System.out.println("Server Response: " + result + " For URL: " + url);
             }
 
             @Override
             public void onError(Exception e) {
-                // Obsługa błędu
+                // Handle the error
                 e.printStackTrace();
             }
         });
     }
 
+    /**
+     * Sets the final question text.
+     *
+     * @param questionText The final question text to display.
+     */
     public void setQuestion(String questionText) {
-
         String quest = Question.getQuestion();
 
         if (questionLvl != 10) {
@@ -66,6 +92,11 @@ public class EndingScreen {
         }
     }
 
+    /**
+     * Sets the correct answer text.
+     *
+     * @param correct The correct answer text to display.
+     */
     public void setCorrect(String correct) {
         String corr = Question.getCorrectAns();
         if (questionLvl != 10) {
@@ -75,14 +106,19 @@ public class EndingScreen {
         }
     }
 
+    /**
+     * Initializes the ending screen by setting up the event handler for the back_button.
+     */
     public void initialize() {
-
         back_button.setOnAction(this::goBackToMainMenu);
     }
 
+    /**
+     * Navigates back to the main menu.
+     *
+     * @param event The ActionEvent triggered by the back_button.
+     */
     private void goBackToMainMenu(ActionEvent event) {
-
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
             Parent mainMenuRoot = loader.load();
@@ -93,7 +129,11 @@ public class EndingScreen {
             e.printStackTrace();
         }
     }
-    public void sendScore(){
+
+    /**
+     * Sends the final score to the server and navigates back to the main menu.
+     */
+    public void sendScore() {
         String login = User.getUserLogin();
         ApiRequest.executeRequest(
                 "http://localhost:8080/sendScore?login=" + login + "&wynik=" + scoreToSend,
@@ -103,32 +143,33 @@ public class EndingScreen {
                         Platform.runLater(() -> {
                             if (result.equals("Score sent successfully")) {
                                 try {
-                                    // Ładowanie pliku FXML dla nowej sceny
+                                    // Load the FXML file for the main menu
                                     FXMLLoader loader = new FXMLLoader(
                                             getClass().getResource("main_menu.fxml"));
                                     Parent root = loader.load();
 
-                                    // Tworzenie sceny na podstawie załadowanego pliku FXML
+                                    // Create a scene based on the loaded FXML file
                                     Scene scene = new Scene(root);
 
-                                    // Pobieranie obiektu Stage z bieżącego widoku
+                                    // Get the Stage object from the current view
                                     Stage stage = (Stage) final_score.getScene().getWindow();
 
-                                    // Ustawianie nowej sceny na Stage
+                                    // Set the new scene on the Stage
                                     stage.setScene(scene);
 
-                                    // Wyświetlanie nowej sceny
+                                    // Show the new scene
                                     stage.show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             } else {
+                                // Display an information alert for failed score sending
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Failed");
                                 alert.setHeaderText(null);
                                 alert.setContentText("Score sent unsuccessfully");
 
-                                // Wyświetlanie okna alertu
+                                // Show the alert window
                                 alert.showAndWait();
                             }
                         });

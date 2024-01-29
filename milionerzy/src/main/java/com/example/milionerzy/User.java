@@ -1,19 +1,55 @@
 package com.example.milionerzy;
 
+/**
+ * Represents a user in the Milionerzy application.
+ * Manages the login status and user-related information.
+ */
 public class User {
-    private static boolean logedIn = false;
+
+    /**
+     * A flag indicating whether a user is logged in or not.
+     */
+    private static boolean loggedIn = false;
+
+    /**
+     * The login name of the user.
+     */
     private static String userLogin = "";
 
-    public static void logUserIn(String login){
-        logedIn = true;
+    /**
+     * Logs the user into the application.
+     *
+     * @param login The login name of the user.
+     */
+    public static void logUserIn(String login) {
+        loggedIn = true;
         userLogin = login;
     }
 
-    public static void logUserOut(){
-        logedIn = false;
+    /**
+     * Logs the user out of the application.
+     */
+    public static void logUserOut() {
+        loggedIn = false;
         userLogin = "";
     }
-    public static String getUserLogin(){
+
+    /**
+     * Gets the login name of the user.
+     *
+     * @return The login name of the user.
+     */
+    public static String getUserLogin() {
         return userLogin;
     }
+
+    /**
+     * Checks if the user is currently logged in.
+     *
+     * @return {@code true} if the user is logged in, {@code false} otherwise.
+     */
+    public static boolean isLoggedIn() {
+        return loggedIn;
+    }
 }
+

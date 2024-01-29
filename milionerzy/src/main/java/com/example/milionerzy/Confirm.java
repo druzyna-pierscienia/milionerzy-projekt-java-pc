@@ -11,25 +11,35 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The `Confirm` class represents the controller for the "Confirm Account" screen in the Milionerzy (Who Wants to Be a Millionaire) application.
+ * It handles user actions related to confirming the account through an activation code.
+ */
 public class Confirm {
 
+    /** Text field for entering the activation code. */
     @FXML
     private TextField code_text;
 
+    /**
+     * Resends the activation code to the user's email.
+     */
     @FXML
     protected void resend() {
         String login = User.getUserLogin();
-        // Wysyłanie zapytania wysyłającego ponownie maila z kodem aktywacyjnym
+
+        // Sending a request to resend the activation code via email
         ApiRequest.executeRequest("http://localhost:8080/sendActivationCode?login=" + login,
                 new ApiRequest.ApiCallback() {
                     @Override
                     public void onResponse(String result) {
                         Platform.runLater(() -> {
+                            // Displaying an information alert indicating successful code resent
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Sent");
                             alert.setHeaderText(null);
                             alert.setContentText("Resent code");
-                            alert.showAndWait(); // Wyświetlanie okna alertu
+                            alert.showAndWait();
                         });
                     }
 
@@ -40,17 +50,22 @@ public class Confirm {
                 });
     }
 
+    /**
+     * Handles the confirmation of the account using the provided activation code.
+     */
     @FXML
     protected void confirm() {
         String login = User.getUserLogin();
+
         ApiRequest.executeRequest("http://localhost:8080/getActivationCode?login=" + login,
                 new ApiRequest.ApiCallback() {
                     @Override
                     public void onResponse(String result) {
                         if (result.equals(code_text.getText())) {
+                            // If the activation code is correct, navigate back to the main menu
                             backToMenu();
                         } else {
-                            // Dodanie obsługi błędu w przypadku niepoprawnego kodu aktywacyjnego
+                            // Display an error alert for incorrect activation code
                             Platform.runLater(() -> {
                                 Alert alert = new Alert(Alert.AlertType.ERROR);
                                 alert.setTitle("Error");
@@ -68,8 +83,12 @@ public class Confirm {
                 });
     }
 
+    /**
+     * Navigates back to the main menu after successful account activation.
+     */
     private void backToMenu() {
         String login = User.getUserLogin();
+
         ApiRequest.executeRequest(
                 "http://localhost:8080/activateUser?login=" + login,
                 new ApiRequest.ApiCallback() {
@@ -78,32 +97,33 @@ public class Confirm {
                         Platform.runLater(() -> {
                             if (result.equals("User activated successfully")) {
                                 try {
-                                    // Ładowanie pliku FXML dla nowej sceny
+                                    // Load the FXML file for the main menu
                                     FXMLLoader loader = new FXMLLoader(
                                             getClass().getResource("main_menu.fxml"));
                                     Parent root = loader.load();
 
-                                    // Tworzenie sceny na podstawie załadowanego pliku FXML
+                                    // Create a scene based on the loaded FXML file
                                     Scene scene = new Scene(root);
 
-                                    // Pobieranie obiektu Stage z bieżącego widoku
+                                    // Get the Stage object from the current view
                                     Stage stage = (Stage) code_text.getScene().getWindow();
 
-                                    // Ustawianie nowej sceny na Stage
+                                    // Set the new scene on the Stage
                                     stage.setScene(scene);
 
-                                    // Wyświetlanie nowej sceny
+                                    // Show the new scene
                                     stage.show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             } else {
+                                // Display an information alert for failed activation
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Failed");
                                 alert.setHeaderText(null);
-                                alert.setContentText("Didn't activated");
+                                alert.setContentText("Didn't activate");
 
-                                // Wyświetlanie okna alertu
+                                // Show the alert window
                                 alert.showAndWait();
                             }
                         });

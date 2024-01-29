@@ -21,14 +21,28 @@ import java.util.Properties;
 import java.sql.*;
 import java.util.Random;
 
+/**
+ * The main class for the Milionerzy API application.
+ */
 @SpringBootApplication
 @RestController
 public class MyApiApplication {
 
+    /**
+     * The main method to start the Spring Boot application.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         SpringApplication.run(MyApiApplication.class, args);
     }
 
+    /**
+     * Retrieves a question for a specified round number.
+     *
+     * @param roundNumber The round number for which the question is requested.
+     * @return The question and answer choices formatted as a single string.
+     */
     @GetMapping("/question")
     public String getQuestion(@RequestParam(name = "roundNumber") String roundNumber) {
         Connect connect = new Connect();
@@ -36,122 +50,143 @@ public class MyApiApplication {
         String pytanie = "blad";
         if (connection != null) {
             try {
-                // Tworzenie zapytania SQL
-                String query = "SELECT * FROM milionerzy.pytania WHERE numer_rundy = "+roundNumber;
+                // Creating SQL query
+                String query = "SELECT * FROM milionerzy.pytania WHERE numer_rundy = " + roundNumber;
                 Random random = new Random();
-                int randomNumber = random.nextInt(10)+1;
+                int randomNumber = random.nextInt(10) + 1;
                 pytanie += randomNumber;
-                // Wykonanie zapytania
+
+                // Executing the query
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
 
-                // Przetwarzanie wyników zapytania
-                for(int i = 0; i < randomNumber; i++) {
+                // Processing query results
+                for (int i = 0; i < randomNumber; i++) {
                     resultSet.next();
                 }
-                // Pobieranie wartości z kolumn w wyniku zapytania
 
+                // Retrieving values from query result columns
                 pytanie = resultSet.getString("tresc");
-                pytanie += "/"+resultSet.getString("odpowiedz_a");
-                pytanie += "/"+resultSet.getString("odpowiedz_b");
-                pytanie += "/"+resultSet.getString("odpowiedz_c");
-                pytanie += "/"+resultSet.getString("odpowiedz_d");
-                pytanie += "/"+resultSet.getString("prawidlowa");
+                pytanie += "/" + resultSet.getString("odpowiedz_a");
+                pytanie += "/" + resultSet.getString("odpowiedz_b");
+                pytanie += "/" + resultSet.getString("odpowiedz_c");
+                pytanie += "/" + resultSet.getString("odpowiedz_d");
+                pytanie += "/" + resultSet.getString("prawidlowa");
 
-                // Zamknięcie obiektów ResultSet i Statement
+                // Closing ResultSet and Statement objects
                 resultSet.close();
                 statement.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                connect.close(); // Zamknięcie połączenia
+                connect.close(); // Closing the connection
             }
-
         }
         return pytanie;
     }
 
+    /**
+     * Retrieves the top 10 rankings from the database.
+     *
+     * @return A string containing the user login and score, separated by '/' and terminated by ';'.
+     */
     @GetMapping("/ranking")
-    public String getRanking(){
+    public String getRanking() {
         String ranking = "404";
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
         if (connection != null) {
             try {
-                // Tworzenie zapytania SQL
-                String query = "SELECT tabilca_wynikow.wynik, uzytkownicy.login FROM milionerzy.tabilca_wynikow INNER JOIN milionerzy.uzytkownicy ON tabilca_wynikow.uzytkownik=uzytkownicy.id_uzytkownika ORDER BY wynik DESC LIMIT 10";
+                // Creating SQL query
+                String query = "SELECT tabilca_wynikow.wynik, uzytkownicy.login FROM milionerzy.tabilca_wynikow " +
+                        "INNER JOIN milionerzy.uzytkownicy ON tabilca_wynikow.uzytkownik=uzytkownicy.id_uzytkownika " +
+                        "ORDER BY wynik DESC LIMIT 10";
 
-
-                // Wykonanie zapytania
+                // Executing the query
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query);
 
-                // Przetwarzanie wyników zapytania
+                // Processing query results
                 ranking = "";
-                while(resultSet.next()){
-                    // Pobieranie wartości z kolumn w wyniku zapytania
+                while (resultSet.next()) {
+                    // Retrieving values from columns in the query result
                     ranking += resultSet.getString("login");
-                    ranking += "/"+resultSet.getString("wynik")+";";
+                    ranking += "/" + resultSet.getString("wynik") + ";";
                 }
-                // Zamknięcie obiektów ResultSet i Statement
+
+                // Closing ResultSet and Statement objects
                 resultSet.close();
                 statement.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                connect.close(); // Zamknięcie połączenia
+                connect.close(); // Closing the connection
             }
-
         }
         return ranking;
     }
 
+    /**
+     * Checks the login credentials against the database.
+     *
+     * @param login    The user login.
+     * @param password The user password.
+     * @return A string indicating whether the login was successful.
+     */
     @GetMapping("/login")
-    public String checkLogin(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password){
+    public String checkLogin(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password) {
         String logSucces = "false";
         int count = 0;
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
         if (connection != null) {
             try {
-                // Tworzenie zapytania SQL
+                // Creating SQL query
                 String query = "SELECT id_uzytkownika FROM milionerzy.uzytkownicy WHERE login = ? AND haslo = ?";
 
                 PreparedStatement statement = connection.prepareStatement(query);
 
-                // Ustawienie wartości parametrów
+                // Setting parameter values
                 statement.setString(1, login);
                 statement.setString(2, password);
 
-                // Wykonanie zapytania
+                // Executing the query
                 ResultSet resultSet = statement.executeQuery();
 
-
-                // Przetwarzanie wyników zapytania
-                while(resultSet.next()){
+                // Processing query results
+                while (resultSet.next()) {
                     count++;
                 }
-                if(count>0){
-                    logSucces="true";
+                if (count > 0) {
+                    logSucces = "true";
                 }
-                // Zamknięcie obiektów ResultSet i Statement
+
+                // Closing ResultSet and Statement objects
                 resultSet.close();
                 statement.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
-                connect.close(); // Zamknięcie połączenia
+                connect.close(); // Closing the connection
             }
-
         }
         return logSucces;
     }
 
+    /**
+     * Registers a new user in the database.
+     *
+     * @param login    The user login.
+     * @param password The user password.
+     * @param mail     The user email.
+     * @return A string indicating the success or failure of the registration process.
+     */
     @PostMapping("/register")
-    public String addUser(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password, @RequestParam(name = "mail") String mail) {
+    public String addUser(@RequestParam(name = "login") String login, @RequestParam(name = "password") String password,
+                          @RequestParam(name = "mail") String mail) {
         String success = "0";
         int count = 0;
 
@@ -159,29 +194,28 @@ public class MyApiApplication {
         Connection connection = connect.getConnection();
         if (connection != null) {
             try {
-                connection.setAutoCommit(false); // włączenie ręcznego zarządzania transakcjami
+                connection.setAutoCommit(false); // Enabling manual transaction management
 
-                // Tworzenie zapytania SQL
+                // Creating SQL query
                 String query = "SELECT id_uzytkownika FROM milionerzy.uzytkownicy WHERE login = ?";
 
                 PreparedStatement statement = connection.prepareStatement(query);
 
-                // Ustawienie wartości parametrów
+                // Setting parameter values
                 statement.setString(1, login);
 
-                // Wykonanie zapytania
+                // Executing the query
                 ResultSet resultSet = statement.executeQuery();
 
-
-                // Przetwarzanie wyników zapytania
-                while(resultSet.next()){
+                // Processing query results
+                while (resultSet.next()) {
                     count++;
                 }
-                if(count!=0){
-                    success="69";
-                }else {
+                if (count != 0) {
+                    success = "69";
+                } else {
 
-                    // Utworzenie zapytania SQL
+                    // Creating SQL query
                     query = "INSERT INTO milionerzy.uzytkownicy (login, haslo, mail, aktywowane) VALUES (?, ?, ?, false)";
 
                     PreparedStatement statement2 = connection.prepareStatement(query);
@@ -189,83 +223,92 @@ public class MyApiApplication {
                     statement2.setString(2, password);
                     statement2.setString(3, mail);
 
-
-                    // Wykonanie instrukcji SQL
+                    // Executing SQL statement
                     int rowsAffected = statement2.executeUpdate();
 
-                    if (rowsAffected == 1) { // Jeżeli wstawiono dokładnie jeden wiersz
+                    if (rowsAffected == 1) { // If exactly one row was inserted
                         success = "420";
-                        connection.commit(); // zatwierdzenie tranzakcji
+                        connection.commit(); // Committing the transaction
                     } else {
-                        connection.rollback(); // wycofanie tranzakcji
+                        connection.rollback(); // Rolling back the transaction
                     }
 
-                    // Zamknięcie obiektów Statement i Connection
+                    // Closing Statement and Connection objects
                     statement.close();
                     statement2.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
                 try {
-                    connection.rollback(); // wycofanie tranzakcji w przypadku błędu SQL
+                    connection.rollback(); // Rolling back the transaction in case of SQL error
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             } finally {
-                connect.close(); // zamknięcie połączenia z bazą danych
+                connect.close(); // Closing the database connection
             }
         }
         return success;
     }
+
+    /**
+     * Saves the user's score in the database.
+     *
+     * @param login The user login.
+     * @param score The user score.
+     * @return A string indicating the success or failure of the score saving process.
+     */
     @PostMapping("/saveScore")
-    public String saveScore(@RequestParam(name = "login") String login, @RequestParam(name = "score") String score){
+    public String saveScore(@RequestParam(name = "login") String login, @RequestParam(name = "score") String score) {
         String success = "0";
         int count = 0;
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
         if (connection != null) {
             try {
-                connection.setAutoCommit(false); // włączenie ręcznego zarządzania transakcjami
+                connection.setAutoCommit(false); // Enabling manual transaction management
 
-
-
-
-                // Utworzenie zapytania SQL
+                // Creating SQL query
                 String query = "INSERT INTO milionerzy.tabilca_wynikow (uzytkownik,wynik) VALUES((SELECT id_uzytkownika FROM milionerzy.uzytkownicy WHERE login = ?),?)";
 
-                // Przygotowanie instrukcji SQL z parametrami
+                // Preparing SQL statement with parameters
                 PreparedStatement statement2 = connection.prepareStatement(query);
                 statement2.setString(1, login);
                 statement2.setInt(2, Integer.parseInt(score));
 
-                // Wykonanie instrukcji SQL
+                // Executing SQL statement
                 int rowsAffected = statement2.executeUpdate();
 
-                if (rowsAffected == 1) { // Jeżeli wstawiono dokładnie jeden wiersz
+                if (rowsAffected == 1) { // If exactly one row was inserted
                     success = "420";
-                    connection.commit(); // zatwierdzenie tranzakcji
+                    connection.commit(); // Committing the transaction
                 } else {
-                    connection.rollback(); // wycofanie tranzakcji
+                    connection.rollback(); // Rolling back the transaction
                 }
 
-                // Zamknięcie obiektów Statement i Connection
-
+                // Closing Statement and Connection objects
                 statement2.close();
 
             } catch (SQLException e) {
                 e.printStackTrace();
                 try {
-                    connection.rollback(); // wycofanie tranzakcji w przypadku błędu SQL
+                    connection.rollback(); // Rolling back the transaction in case of SQL error
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
             } finally {
-                connect.close(); // zamknięcie połączenia z bazą danych
+                connect.close(); // Closing the database connection
             }
         }
         return success;
     }
 
+    /**
+     * Retrieves the activation code for a user from the database.
+     *
+     * @param login The user login.
+     * @return The activation code or an error message.
+     */
     private String getActivationCodeFromDatabase(String login) {
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
@@ -278,7 +321,6 @@ public class MyApiApplication {
                         "WHERE uzytkownicy.login = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, login);
-
 
                 ResultSet resultSet = statement.executeQuery();
 
@@ -298,7 +340,12 @@ public class MyApiApplication {
         return activationCode;
     }
 
-
+    /**
+     * Retrieves the user's email from the database.
+     *
+     * @param login The user login.
+     * @return The user's email or null if not found.
+     */
     private String getEmailFromDatabase(String login) {
         Connect connect = new Connect();
         Connection connection = connect.getConnection();
@@ -328,9 +375,14 @@ public class MyApiApplication {
         return email;
     }
 
+    /**
+     * Sends an activation email to the user's email address.
+     *
+     * @param email          The user's email address.
+     * @param activationCode The activation code.
+     */
     private void sendActivationEmail(String email, String activationCode) {
-         final String username = "javatok121@gmail.com";
-        //final String username = nadawca;
+        final String username = "javatok121@gmail.com";
         final String password = "ulbfkfxedyvjiwpk";
 
         Properties prop = new Properties();
@@ -348,38 +400,41 @@ public class MyApiApplication {
                 });
 
         try {
-
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("from@gmail.com"));
             message.setRecipients(
                     Message.RecipientType.TO,
                     InternetAddress.parse(email)
             );
-            message.setSubject("Milionerzy - Kod aktywacyjny");
+            message.setSubject("Milionerzy - Activation Code");
 
-            // Create the message part
+            // Creating the message part
             BodyPart messageBodyPart = new MimeBodyPart();
 
-            // Now set the actual message
-            messageBodyPart.setText("Kod: "+activationCode);
+            // Setting the actual message
+            messageBodyPart.setText("Activation Code: " + activationCode);
 
-            // Create a multipar message
+            // Creating a multipart message
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
-
 
             message.setContent(multipart);
 
             Transport.send(message);
 
-            System.out.println("Done");
+            System.out.println("Activation Code Sent");
 
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * Sends an activation code to the user's email address.
+     *
+     * @param login The user login.
+     * @return A string indicating the success or failure of the activation code sending process.
+     */
     @GetMapping("/sendActivationCode")
     public String sendActivationCode(@RequestParam(name = "login") String login) {
         String activationCode = getActivationCodeFromDatabase(login);
@@ -398,6 +453,12 @@ public class MyApiApplication {
         }
     }
 
+    /**
+     * Activates a user in the database.
+     *
+     * @param login The user login.
+     * @return A string indicating the success or failure of the user activation process.
+     */
     @GetMapping("/activateUser")
     public String activateUser(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
@@ -405,14 +466,14 @@ public class MyApiApplication {
 
         if (connection != null) {
             try {
-                // Aktualizacja flagi aktywacji
+                // Updating activation flag
                 String updateActivationFlagQuery = "UPDATE milionerzy.uzytkownicy SET aktywowane = true WHERE login = ?";
                 PreparedStatement updateActivationFlagStatement = connection.prepareStatement(updateActivationFlagQuery);
                 updateActivationFlagStatement.setString(1, login);
 
                 int rowsAffected = updateActivationFlagStatement.executeUpdate();
 
-                // Zamknięcie obiektów PreparedStatement
+                // Closing PreparedStatement objects
                 updateActivationFlagStatement.close();
 
                 if (rowsAffected > 0) {
@@ -430,6 +491,12 @@ public class MyApiApplication {
         return "Error: Database connection error";
     }
 
+    /**
+     * Retrieves the activation code for a user from the database.
+     *
+     * @param login The user login.
+     * @return The activation code or an error message.
+     */
     @GetMapping("/getActivationCode")
     public String getActivationCode(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
@@ -467,6 +534,12 @@ public class MyApiApplication {
         return "Error: Database connection error";
     }
 
+    /**
+     * Retrieves the activation status for a user from the database.
+     *
+     * @param login The user login.
+     * @return A string indicating whether the user is activated or not.
+     */
     @GetMapping("/getActivationStatus")
     public String getActivationStatus(@RequestParam(name = "login") String login) {
         Connect connect = new Connect();
@@ -502,74 +575,22 @@ public class MyApiApplication {
         return "Error: Database connection error";
     }
 
+    /**
+     * Sends the user's score via email.
+     *
+     * @param login The user login.
+     * @param wynik The user score.
+     * @return A string indicating the success or failure of the score sending process.
+     */
+    @GetMapping("/sendScore")
+    public String sendScore(@RequestParam(name = "login") String login, @RequestParam(name = "wynik") Integer wynik) {
+        String email = getEmailFromDatabase(login);
 
-    private void sendScoreEmail(String email, Integer score) {
-        final String username = "javatok121@gmail.com";
-        //final String username = nadawca;
-        final String password = "ulbfkfxedyvjiwpk";
-
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "465");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.socketFactory.port", "465");
-        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-
-        Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-        try {
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@gmail.com"));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(email)
-            );
-            message.setSubject("Milionerzy - Wynik gry");
-
-            // Create the message part
-            BodyPart messageBodyPart = new MimeBodyPart();
-
-            // Now set the actual message
-            messageBodyPart.setText("Wynik: "+score.toString());
-
-
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-
-            message.setContent(multipart);
-
-            Transport.send(message);
-
-            System.out.println("Done");
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
+        if (email != null) {
+            sendScoreEmail(email, wynik);
+            return "Score sent successfully";
+        } else {
+            return "Error: User does not have a valid email address.";
         }
     }
-
-
-
-    @GetMapping("/sendScore")
-    public String sendScore(@RequestParam(name = "login") String login,@RequestParam(name = "wynik") Integer wynik) {
-
-
-
-            String email = getEmailFromDatabase(login);
-
-            if (email != null) {
-                sendScoreEmail(email, wynik);
-                return "Score sent successfully";
-            } else {
-                return "Error: User does not have a valid email address.";
-            }
-
-    }
-
-
 }

@@ -17,21 +17,33 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The `Question` class represents the controller for the question screen in the Milionerzy (Who Wants to Be a Millionaire) application.
+ * It handles the display of questions, user responses, and the use of lifelines (hints). It also manages the transition to the next question or the ending screen.
+ */
 public class Question {
+
+    /** Button for navigating back to the main menu. */
     public Button backToMenuButton;
-    @FXML
-    public Button odpA;
-    @FXML
-    public Button odpB;
-    @FXML
-    public Button odpC;
-    @FXML
-    public Button odpD;
+
+    /** Buttons for possible answers (A, B, C, D). */
+    @FXML public Button odpA;
+    @FXML public Button odpB;
+    @FXML public Button odpC;
+    @FXML public Button odpD;
+
+    /** Buttons for using hints (50/50, Audience, Phone). */
     public Button hint5050;
     public Button hintAudience;
     public Button hintPhone;
+
+    /** Text displaying the current question. */
     public Text question_text;
+
+    /** Static variable holding the correct answer (A, B, C, D). */
     private static String correct = "a";
+
+    /** Variables holding question-related data. */
     private String question = "Pytanie za milion";
     private String questionFromDataBase;
     private String answerAFromDataBase;
@@ -39,53 +51,73 @@ public class Question {
     private String answerCFromDataBase;
     private String answerDFromDataBase;
     private String correctAns;
-    private int score = 0, scoreG = 0, questionLvl = 0;
-    private static String AnsA = "", AnsB = "",AnsC = "", AnsD = "",Quest = "";
 
+    /** Variables related to scoring and question level. */
+    private int score = 0, scoreG = 0, questionLvl = 0;
+    private static String AnsA = "", AnsB = "", AnsC = "", AnsD = "", Quest = "";
+
+    /**
+     * Sets the question level.
+     *
+     * @param Lvl The question level to set.
+     */
     public void setLvl(int Lvl) {
         questionLvl = Lvl;
     }
 
+    /**
+     * Sets the overall score.
+     *
+     * @param scoreP The overall score to set.
+     */
     public void setScore(int scoreP) {
         score = scoreP;
     }
 
+    /**
+     * Sets the score for the current game.
+     *
+     * @param scoreGP The score for the current game to set.
+     */
     public void setScoreG(int scoreGP) {
         scoreG = scoreGP;
     }
+
+    /**
+     * Initializes the question screen by loading the question and setting up event handlers.
+     */
     public void initialize() {
         questionLvl += 1;
-    String url = "http://localhost:8080/question?roundNumber=" + questionLvl;
-    ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
-        @Override
-        public void onResponse(String result) {
-            // Obsługa odpowiedzi API
-            if (result.equals("blad")) {
-                question_text.setText(result);
-                Platform.runLater(() -> odpA.setText("Kliknij aby przejść dalej"));
-            } else {
-                String[] quest = result.split("/");
-
-                question_text.setText(quest[0]);
-                Platform.runLater(() -> odpA.setText(quest[1]));
-                Platform.runLater(() -> odpB.setText(quest[2]));
-                Platform.runLater(() -> odpC.setText(quest[3]));
-                Platform.runLater(() -> odpD.setText(quest[4]));
-                correct = quest[5];
-                Quest=String.valueOf(quest[0]);
-                AnsA=String.valueOf(quest[1]);
-                AnsB=String.valueOf(quest[2]);
-                AnsC=String.valueOf(quest[3]);
-                AnsD=String.valueOf(quest[4]);
+        String url = "http://localhost:8080/question?roundNumber=" + questionLvl;
+        ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
+            @Override
+            public void onResponse(String result) {
+                // Handle API response
+                if (result.equals("blad")) {
+                    question_text.setText(result);
+                    Platform.runLater(() -> odpA.setText("Kliknij aby przejść dalej"));
+                } else {
+                    String[] quest = result.split("/");
+                    question_text.setText(quest[0]);
+                    Platform.runLater(() -> odpA.setText(quest[1]));
+                    Platform.runLater(() -> odpB.setText(quest[2]));
+                    Platform.runLater(() -> odpC.setText(quest[3]));
+                    Platform.runLater(() -> odpD.setText(quest[4]));
+                    correct = quest[5];
+                    Quest = String.valueOf(quest[0]);
+                    AnsA = String.valueOf(quest[1]);
+                    AnsB = String.valueOf(quest[2]);
+                    AnsC = String.valueOf(quest[3]);
+                    AnsD = String.valueOf(quest[4]);
+                }
             }
-        }
 
-        @Override
-        public void onError(Exception e) {
-            // Obsługa błędu
-            question_text.setText("Wystąpił błąd: " + e.getMessage());
-        }
-    });
+            @Override
+            public void onError(Exception e) {
+                // Handle error
+                question_text.setText("Wystąpił błąd: " + e.getMessage());
+            }
+        });
 
         backToMenuButton.setOnAction(this::goBackToMainMenu);
         odpA.setOnAction(this::answerA);
@@ -95,31 +127,44 @@ public class Question {
         hint5050.setOnAction(this::useHint5050);
         hintAudience.setOnAction(this::useHintAudience);
         hintPhone.setOnAction(event -> {
-
             int questionNumber = questionLvl;
-
             useHintPhone(event, questionNumber);
         });
-
-
     }
 
+    // ... (Continued on next comment due to character limit)
 
-    public static String getCorrectAns(){
-        if (correct.equals("a")){
+    // Continued...
+
+    /**
+     * Gets the correct answer for the current question.
+     *
+     * @return The correct answer.
+     */
+    public static String getCorrectAns() {
+        if (correct.equals("a")) {
             return AnsA;
         } else if (correct.equals("b")) {
             return AnsB;
         } else if (correct.equals("c")) {
             return AnsC;
-        }
-        else {
+        } else {
             return AnsD;
         }
     }
-    public static String getQuestion(){
+
+    /**
+     * Gets the current question.
+     *
+     * @return The current question.
+     */
+    public static String getQuestion() {
         return Quest;
     }
+
+    /**
+     * Handles the correct answer scenario, updates the score, and loads the next question.
+     */
     private void correctAnswer() {
         questionLvl += 1;
         score = score + questionLvl * 10;
@@ -131,8 +176,7 @@ public class Question {
 
         if (questionLvl % 3 == 0) {
             scoreG = score;
-        }
-        else if(questionLvl == 10){
+        } else if (questionLvl == 10) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("ending_screen.fxml"));
                 Parent endingRoot = loader.load();
@@ -152,34 +196,40 @@ public class Question {
         ApiRequest.executeRequest(url, new ApiRequest.ApiCallback() {
             @Override
             public void onResponse(String result) {
-                // Obsługa odpowiedzi API
+                // Handle API response
                 if (result.equals("blad")) {
                     question_text.setText(result);
                 } else {
                     String[] quest = result.split("/");
-
                     question_text.setText(quest[0]);
                     Platform.runLater(() -> odpA.setText(quest[1]));
                     Platform.runLater(() -> odpB.setText(quest[2]));
                     Platform.runLater(() -> odpC.setText(quest[3]));
                     Platform.runLater(() -> odpD.setText(quest[4]));
                     correct = quest[5];
-                    Quest=String.valueOf(quest[0]);
-                    AnsA=String.valueOf(quest[1]);
-                    AnsB=String.valueOf(quest[2]);
-                    AnsC=String.valueOf(quest[3]);
-                    AnsD=String.valueOf(quest[4]);
+                    Quest = String.valueOf(quest[0]);
+                    AnsA = String.valueOf(quest[1]);
+                    AnsB = String.valueOf(quest[2]);
+                    AnsC = String.valueOf(quest[3]);
+                    AnsD = String.valueOf(quest[4]);
                 }
             }
 
             @Override
             public void onError(Exception e) {
-                // Obsługa błędu
+                // Handle error
                 question_text.setText("Wystąpił błąd: " + e.getMessage());
             }
         });
     }
 
+    // ... (Continued on next comment due to character limit)
+
+    // Continued...
+
+    /**
+     * Handles the wrong answer scenario and navigates to the ending screen.
+     */
     private void wrongAnswer() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ending_screen.fxml"));
@@ -196,6 +246,15 @@ public class Question {
         }
     }
 
+    // ... (Continued on next comment due to character limit)
+
+    // Continued...
+
+    /**
+     * Navigates back to the main menu.
+     *
+     * @param event The ActionEvent triggered by the backToMenuButton.
+     */
     private void goBackToMainMenu(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
@@ -208,6 +267,11 @@ public class Question {
         }
     }
 
+    /**
+     * Handles the user selecting answer A.
+     *
+     * @param event The ActionEvent triggered by odpA.
+     */
     private void answerA(ActionEvent event) {
         if (correct.equals("a")) {
             correctAnswer();
@@ -216,6 +280,11 @@ public class Question {
         }
     }
 
+    /**
+     * Handles the user selecting answer B.
+     *
+     * @param event The ActionEvent triggered by odpB.
+     */
     private void answerB(ActionEvent event) {
         if (correct.equals("b")) {
             correctAnswer();
@@ -224,6 +293,11 @@ public class Question {
         }
     }
 
+    /**
+     * Handles the user selecting answer C.
+     *
+     * @param event The ActionEvent triggered by odpC.
+     */
     private void answerC(ActionEvent event) {
         if (correct.equals("c")) {
             correctAnswer();
@@ -232,6 +306,11 @@ public class Question {
         }
     }
 
+    /**
+     * Handles the user selecting answer D.
+     *
+     * @param event The ActionEvent triggered by odpD.
+     */
     private void answerD(ActionEvent event) {
         if (correct.equals("d")) {
             correctAnswer();
@@ -239,9 +318,14 @@ public class Question {
             wrongAnswer();
         }
     }
+
+    /**
+     * Handles the user using the 50/50 hint.
+     *
+     * @param event The ActionEvent triggered by hint5050.
+     */
     private void useHint5050(ActionEvent event) {
         // TODO: Implementacja metody hint5050
-
 
         List<Button> wrongAnswers = new ArrayList<>();
 
@@ -273,10 +357,17 @@ public class Question {
         // Wyłączanie przycisku "hint5050"
         hint5050.setDisable(true);
         hint5050.setVisible(false);
-
-
     }
 
+    // ... (Continued on next comment due to character limit)
+
+    // Continued...
+
+    /**
+     * Handles the user using the Audience hint.
+     *
+     * @param event The ActionEvent triggered by hintAudience.
+     */
     private void useHintAudience(ActionEvent event) {
         // TODO: Implementacja metody hintAudience
 
@@ -347,34 +438,45 @@ public class Question {
         hintAudience.setVisible(false);
     }
 
-    private void useHintPhone(ActionEvent event, Integer questionLvl) {
+    // ... (Continued on next comment due to character limit)
 
+    // Continued...
+
+    /**
+     * Handles the user using the Phone hint.
+     *
+     * @param event        The ActionEvent triggered by hintPhone.
+     * @param questionLvl  The current question level.
+     */
+    private void useHintPhone(ActionEvent event, Integer questionLvl) {
         // Wylosuj procentową szansę na poprawną odpowiedź przy użyciu "telefonu do przyjaciela"
         int chance = 0;
         String message;
+
         // Określenie szansy w zależności od numeru pytania
         if (questionLvl >= 1 && questionLvl <= 3) {
             // Dla pytań 1-3 zawsze poprawna odpowiedź
             chance = 100;
         } else if (questionLvl >= 4 && questionLvl <= 6) {
-            // Dla pytań 4-6 60% szansy na poprawną odpowiedź
-            chance = 60;
+            // Dla pytań 4-6 szansa na poprawną odpowiedź to 80-100%
+            chance = new Random().nextInt(21) + 80;
         } else if (questionLvl >= 7 && questionLvl <= 9) {
-            // Dla pytań 7-9 20% szansy na poprawną odpowiedź
-            chance = 20;
+            // Dla pytań 7-9 szansa na poprawną odpowiedź to 60-80%
+            chance = new Random().nextInt(21) + 60;
         } else if (questionLvl == 10) {
-            // Dla ostatniego pytania zawsze odpowiedź, że nie zna
-            message = "Twój przyjaciel nie jest pewien odpowiedzi, trudno powiedzieć...";
-            return;
+            // Dla pytania 10 szansa na poprawną odpowiedź to 50%
+            chance = 50;
         }
-        boolean isAnswerCorrect = new Random().nextInt(100) < chance;
+
+        // Sprawdzenie, czy poprawna odpowiedź jest dostępna
+        boolean correctAnswerAvailable = chance == 100 || new Random().nextInt(101) <= chance;
 
         // Tworzenie wiadomości dla okna dialogowego
-
-        if (isAnswerCorrect) {
-            message = "Twój przyjaciel pomógł Ci, poprawna odpowiedź to: " + correct;
+        if (correctAnswerAvailable) {
+            message = "Zadzwońmy do przyjaciela...\nPrzyjaciel jest pewny, że poprawna odpowiedź to:\n" + getCorrectAns() + "!";
         } else {
-            message = "Twój przyjaciel nie jest pewien odpowiedzi, trudno powiedzieć...";
+            message = "Zadzwońmy do przyjaciela...\nPrzyjaciel ma pewne wątpliwości, ale stawia na odpowiedź: "
+                    + getRandomWrongAnswer();
         }
 
         // Wyświetlanie okna dialogowego
@@ -386,11 +488,17 @@ public class Question {
 
         hintPhone.setDisable(true);
         hintPhone.setVisible(false);
-
     }
 
-
-
-
-
+    /**
+     * Gets a random wrong answer (used in the Phone hint).
+     *
+     * @return A random wrong answer.
+     */
+    private String getRandomWrongAnswer() {
+        List<String> wrongAnswers = new ArrayList<>(List.of(AnsA, AnsB, AnsC, AnsD));
+        wrongAnswers.remove(getCorrectAns());
+        return wrongAnswers.get(new Random().nextInt(wrongAnswers.size()));
+    }
 }
+

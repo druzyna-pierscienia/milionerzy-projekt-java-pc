@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a0d875b3-91d4-4ba8-94c7-fd690fd2c094" name="Changes" comment="" />
+    <list default="true" id="a0d875b3-91d4-4ba8-94c7-fd690fd2c094" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/api/MyApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/MyApiApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/connection/Connect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/connection/Connect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/AboutApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/AboutApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequestInto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequestInto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Confirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Confirm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/EndingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/EndingScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Login.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Registration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Scoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Scoreboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/User.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,23 +53,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MyApiApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;mail&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;Z:/Git/milionerzy-projekt-java-pc/milionerzy&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MyApiApplication.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "mail",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Admin/Desktop/TOIK/Milionerzy_api/milionerzy_api",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\Desktop\projekt psm\milionerzy-projekt-sm-dc-ww\Milionerzy_api\milionerzy_api\src\main\java\com" />
