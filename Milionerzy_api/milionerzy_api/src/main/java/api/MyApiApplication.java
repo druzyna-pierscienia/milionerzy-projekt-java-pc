@@ -576,6 +576,75 @@ public class MyApiApplication {
     }
 
     /**
+     * Sends an email with the game score to the specified email address using Gmail SMTP.
+     *
+     * @param email The recipient's email address.
+     * @param score The score to be included in the email message.
+     */
+    private void sendScoreEmail(String email, Integer score) {
+        // Gmail credentials for authentication
+        final String username = "javatok121@gmail.com";
+        final String password = "ulbfkfxedyvjiwpk";
+
+        // Set up email properties for Gmail SMTP
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.socketFactory.port", "465");
+        prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+
+        // Create a mail session with authentication
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+            // Create a MimeMessage object for the email
+            Message message = new MimeMessage(session);
+
+            // Set the sender address
+            message.setFrom(new InternetAddress("from@gmail.com"));
+
+            // Set the recipient address
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(email)
+            );
+
+            // Set the email subject
+            message.setSubject("Milionerzy - Wynik gry");
+
+            // Create the message body part
+            BodyPart messageBodyPart = new MimeBodyPart();
+
+            // Set the text content of the message body
+            messageBodyPart.setText("Wynik: " + score.toString());
+
+            // Create a multipart message to handle multiple body parts
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            // Set the content of the email message
+            message.setContent(multipart);
+
+            // Send the email message
+            Transport.send(message);
+
+            // Print a message indicating successful email delivery
+            System.out.println("Email sent successfully");
+
+        } catch (MessagingException e) {
+            // Print the stack trace in case of an exception during email sending
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
      * Sends the user's score via email.
      *
      * @param login The user login.

@@ -5,26 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0d875b3-91d4-4ba8-94c7-fd690fd2c094" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/api/MyApiApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/MyApiApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/connection/Connect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/connection/Connect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/MyApiApplication$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/MyApiApplication$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/api/MyApiApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/connection/Connect.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../milionerzy/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/AboutApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/AboutApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequestInto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/ApiRequestInto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Confirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Confirm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/EndingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/EndingScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Question.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Registration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Registration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Scoreboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/Scoreboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../milionerzy/src/main/java/com/example/milionerzy/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,9 +46,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "mail",
+    "git-widget-placeholder": "feature__javaDoc",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Admin/Desktop/TOIK/Milionerzy_api/milionerzy_api",
+    "last_opened_file_path": "Z:/Git/milionerzy-projekt-java-pc/milionerzy",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -111,6 +98,8 @@
       <updated>1683396769005</updated>
       <workItem from="1706119152695" duration="13000" />
       <workItem from="1706119175057" duration="628000" />
+      <workItem from="1706600650866" duration="497000" />
+      <workItem from="1706601234801" duration="204000" />
     </task>
     <servers />
   </component>

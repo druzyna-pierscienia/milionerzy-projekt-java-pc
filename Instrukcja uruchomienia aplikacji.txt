@@ -1,0 +1,3 @@
+Pierwsze powinno zostać uruchomione milionerzy_api w środowisku intellij IDEA. Dokładniej MyApiApplication.java.
+
+Drugie powinno zostać uruchomione milionerzy w środowisku intellij IDEA. Dokładniej HelloApplication.java.
